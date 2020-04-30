@@ -1,0 +1,6 @@
+#!/bin/bash
+
+INPUT_PDF="$1"
+STAMP_PDF="$2"
+
+pdftk ${INPUT_PDF} stamp ${STAMP_PDF} output "${INPUT_PDF%.*}-stamped.pdf"

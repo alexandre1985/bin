@@ -1,0 +1,16 @@
+#!/bin/bash
+
+PLAYLIST="/home/daniel/Music/peertube-video.m3u"
+SOUND_VOLUME=37
+COMMAND="/usr/bin/mpv --really-quiet --stop-playback-on-init-failure=yes --playlist=${PLAYLIST} --no-video --volume ${SOUND_VOLUME}"
+
+
+if ! /usr/bin/pgrep -a -f "${COMMAND}" > /dev/null; then
+	# echo play
+	${COMMAND} > /dev/null 2>&1 &
+else
+	# echo stop
+	/usr/bin/pkill -f "${COMMAND}"
+fi
+
+exit 0

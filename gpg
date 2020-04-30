@@ -1,0 +1,6 @@
+#!/bin/bash
+
+MYGPG=/usr/bin/gpg
+
+${MYGPG} "$@"
+gpgconf --kill gpg-agent

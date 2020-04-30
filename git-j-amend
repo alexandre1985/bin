@@ -1,0 +1,12 @@
+#!/bin/bash
+
+git add -A
+git commit --amend
+
+git build
+
+cd _site/
+
+git amend
+
+exit 0

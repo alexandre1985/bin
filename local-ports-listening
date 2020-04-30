@@ -1,0 +1,5 @@
+#!/bin/bash
+
+sudo netstat -tulpn | grep LISTEN
+
+exit 0

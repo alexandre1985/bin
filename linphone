@@ -1,0 +1,5 @@
+#!/bin/bash
+
+/usr/bin/flatpak run com.belledonnecommunications.linphone ${@}
+
+exit 0

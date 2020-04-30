@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [[ -f ./_bin/build ]]; then
+	./_bin/build
+	exit 0
+fi
+
+if [[ -f ./build ]]; then
+	./build
+	exit 0
+fi
+
+JEKYLL_ENV=production bundle exec jekyll build
+
+exit 0

@@ -1,0 +1,48 @@
+#!/bin/bash
+
+print_domain_result() {
+
+	DOMAIN="$1"
+	TLD=${DOMAIN##*.}
+
+	printf " - "
+
+	# checking if domain is available
+
+	if nslookup $DOMAIN &> /dev/null; then
+		echo "$DOMAIN is used."
+		return 0
+	fi
+
+	# checking if domain is premium
+
+	TMP_FILE=/tmp/domain-text
+
+	if whois $DOMAIN > ${TMP_FILE} 2> /dev/null; then
+		if grep -i "premium" ${TMP_FILE} &> /dev/null; then
+			echo "$DOMAIN is free and premium."
+		else
+			echo "$DOMAIN is free and not premium!"
+		fi
+		return 0
+	fi
+
+	rm ${TMP_FILE}
+
+	echo "$DOMAIN is free and *maybe* premium (not sure if is premium because whois from the command line doesn't seem to work with this domain; you have to manually check if is premium on a .${TLD^^} domain registrar webpage)."
+}
+
+
+non_line_break=true
+
+for domain in "${@}"; do
+	if $non_line_break; then
+		non_line_break=false
+	else
+		echo
+	fi
+
+	print_domain_result "$domain"
+done
+
+exit 0

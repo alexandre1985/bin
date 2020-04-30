@@ -1,0 +1,12 @@
+#!/bin/bash
+
+DOMAIN="$1"
+
+if [[ $(dig _xmpp-client._tcp.${DOMAIN} srv +short) ]]; then
+	exit 0
+else
+	exit 1
+fi
+
+# 0 - has xmpp
+# 1 - does not have xmpp

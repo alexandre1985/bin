@@ -1,0 +1,12 @@
+#!/bin/bash
+
+SCRIPT_LINK=$1
+FILE=$2
+
+SCRIPT="<script src=\"${SCRIPT_LINK}\"></script>"
+
+
+if ! grep -Fxq "${SCRIPT}" "${FILE}"
+then
+	sed -re "s|</body></html>|${SCRIPT}\n</body></html>|g" -i $FILE
+fi

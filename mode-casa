@@ -1,0 +1,7 @@
+#!/bin/su root
+
+wifi-start
+systemctl start avahi-daemon
+radio-broadcast
+
+exit 0

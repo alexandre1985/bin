@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+yarn && yarn deps:shared
+yarn deps:mobile
+
+cd src/mobile
+
+yarn
+cd android
+./gradlew assembleRelease
+

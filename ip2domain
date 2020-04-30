@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [[ $1 == "-v" ]]; then
+	IP=$2
+else
+	IP=$1
+fi
+
+REVERVE_IP=$(echo ${IP} | awk -F. '{print $4"."$3"." $2"."$1}')
+
+if [[ $1 == "-v" ]]; then
+	nslookup -type=PTR ${REVERVE_IP}.in-addr.arpa
+else
+	nslookup -type=PTR ${REVERVE_IP}.in-addr.arpa | grep -n 'in-addr.arpa' | awk '{print $NF}' | sed 's/.$//'
+fi

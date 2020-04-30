@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#sudo wifi-ana
+
+evolution &
+
+gajim &
+
+#start-minimized linphone Linphone 7 &
+
+
+exit 0

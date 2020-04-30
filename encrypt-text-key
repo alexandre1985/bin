@@ -1,0 +1,11 @@
+#!/bin/bash
+
+KEYDIRECTORY="$HOME/.openssl"
+
+KEY="${KEYDIRECTORY}/$1"
+TEXT="$2"
+
+printf "$TEXT" | openssl rsautl -inkey "$KEY" -encrypt
+
+# generate a 2048-bit RSA key and store it in key.txt
+#openssl genrsa -out key.txt 2048

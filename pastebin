@@ -1,0 +1,7 @@
+#!/bin/bash
+
+FILE="$1"
+
+curl -F"file=@${FILE}" https://0x0.st
+
+exit 0

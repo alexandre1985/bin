@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ "$1" == "install" ]; then
+	yaourt aaxtomp3 audible-activator-git
+	exit 0
+fi
+
+
+if [ "$1" == "activate" ]; then
+	audible-activator
+	exit 0
+fi
+
+ACTIVATOR_BYTES=$1
+AAX_FILE=$2
+
+AAXtoMP3 $ACTIVATOR_BYTES $AAX_FILE

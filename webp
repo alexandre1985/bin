@@ -1,0 +1,17 @@
+#!/bin/bash
+
+IMAGE=$1
+OUTPUT_FILENAME=${IMAGE%.*}.webp
+
+
+if [[ ! -f ${IMAGE} ]]; then
+	echo "${IMAGE} is not a file"
+	exit 1
+fi
+
+if [[ ! -f ${OUTPUT_FILENAME} ]]; then
+	magick ${IMAGE} -quality 50 -define webp:lossless=true ${OUTPUT_FILENAME}
+fi
+
+
+exit 0

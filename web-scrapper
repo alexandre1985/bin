@@ -1,0 +1,6 @@
+#!/bin/bash
+
+WEBSITE="$1"
+CSS_SELECTOR="$2"
+
+curl -s "${WEBSITE}" | html-parser "${CSS_SELECTOR}"

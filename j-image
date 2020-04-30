@@ -1,0 +1,100 @@
+#!/bin/bash
+
+function image-width() {
+	local FILE=$1
+
+	identify -format '%w' ${FILE}
+}
+
+function generate-files-and-srcset() {
+
+	local OUTPUT_SRCSET_STRING=""
+	local i=1
+	local FILE="$1"
+
+	local IMAGE=${IMAGE_NO_EXT}.webp
+
+	DIMENSION_WIDTHS=(576 768 992 1200 1600)
+	
+	IMAGE_WIDTH=$(image-width ${FILE})
+
+
+	for dimension in ${DIMENSION_WIDTHS[@]}; do
+		if [[ ${IMAGE_WIDTH} > ${dimension} ]]; then
+			DIMENSION_SRCSET_IMAGE+=(${IMAGE_WIDTH})
+			break
+		fi
+
+		DIMENSION_SRCSET_IMAGE+=(${dimension})
+	done
+
+
+	if [[ ! -f ${IMAGE} ]]; then
+		magick ${FILE} -quality 1 "${OUTPUT_IMAGE_NO_EXT}.webp"
+	fi
+
+	for width in ${DIMENSION_SRCSET_IMAGE[@]}; do
+
+		OUTPUT_FILE="${IMAGE_NO_EXT}-${width}.webp"
+
+		if [[ ! -f ${OUTPUT_FILE} ]]; then
+			magick ${FILE} -quality 50 -define webp:lossless=true -resize ${width} ${OUTPUT_IMAGE_NO_EXT}-${width}.webp
+		fi
+
+		if [[ ! ${i} -eq 1 ]]; then
+			OUTPUT_SRCSET_STRING+=", "
+		fi
+
+		OUTPUT_SRCSET_STRING+="/${OUTPUT_FILE} ${width}w"
+
+		((i++))
+	done
+
+	printf "${OUTPUT_SRCSET_STRING}"
+}
+
+
+LAZY=false
+
+while getopts 'f:a:c:s:w:l' flag; do
+
+  case "${flag}" in
+  	f) IMAGE="${OPTARG}" ;;
+  	l) LAZY=true ;;
+    a) ALT='alt="'${OPTARG}'"' ;;
+    c) CLASS="${OPTARG}" ;;
+    s) STYLE='style="'${OPTARG}'"' ;;
+    w) DATA_WOW_DELAY='data-wow-delay="'${OPTARG}'"' ;;
+  esac
+
+done
+
+if [[ ! -f ${IMAGE} ]]; then
+	echo "${IMAGE} is not a file"
+	exit 1
+fi
+
+
+IMAGE_FILENAME="`basename ${IMAGE}`"
+
+IMAGE_PATH="assets/img/generated"
+IMAGE_NO_EXT="${IMAGE_PATH}/${IMAGE_FILENAME%.*}"
+OUTPUT_IMAGE_PATH="_site/${IMAGE_PATH}"
+OUTPUT_IMAGE_NO_EXT="_site/${IMAGE_NO_EXT}"
+
+
+mkdir -p ${OUTPUT_IMAGE_PATH}
+
+
+SRCSET="$(generate-files-and-srcset ${IMAGE} )"
+
+
+if ${LAZY}; then
+	OUTPUT='<img class="lazyload '${CLASS}'" '${STYLE}' '${ALT}' '${DATA_WOW_DELAY}' data-src="/'${IMAGE_NO_EXT}.webp'" data-srcset="'${SRCSET}'" sizes="(min-width: 1200px) 1600px, (min-width: 992px) 1200px, (min-width: 768px) 992px, (min-width: 576px) 768px, (min-width: 1px) 576px">\n<noscript>\n<img class="'${CLASS}'" '${STYLE}' '${ALT}' '${DATA_WOW_DELAY}' src="/'${IMAGE_NO_EXT}.webp'" srcset="'${SRCSET}'">\n</noscript>'
+else
+	OUTPUT='<img class="'${CLASS}'" '${STYLE}' '${ALT}' '${DATA_WOW_DELAY}' src="/'${IMAGE_NO_EXT}.webp'" srcset="'${SRCSET}'" sizes="(min-width: 1200px) 1600px, (min-width: 992px) 1200px, (min-width: 768px) 992px, (min-width: 576px) 768px, (min-width: 1px) 576px">'
+fi
+
+printf "${OUTPUT}"
+
+exit 0

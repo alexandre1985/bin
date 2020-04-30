@@ -1,0 +1,9 @@
+#!/bin/bash
+
+CMD="mpv --really-quiet http://shaincast.caster.fm:48045/listen.mp3?authn2e6025eddf2a7203d75b31b3affc5819"
+
+if pgrep mpv &> /dev/null; then
+	pkill mpv
+else
+	${CMD} &
+fi

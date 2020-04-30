@@ -1,0 +1,9 @@
+#!/bin/bash
+
+cd ~/apps/vnu/
+
+wget --quiet https://github.com/validator/validator/releases/download/jar/vnu.jar
+
+echo "vnu.jar updated"
+
+exit 0

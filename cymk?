@@ -1,0 +1,3 @@
+#!/bin/bash
+
+identify -format '%[colorspace]\n' ${1}

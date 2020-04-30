@@ -1,0 +1,5 @@
+#!/bin/bash
+
+pacaur -Syu --noedit --noconfirm
+
+exit 0

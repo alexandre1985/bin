@@ -1,0 +1,12 @@
+#!/usr/bin/su root
+
+MY_NORMAL_USER="daniel"
+
+BACKUP_DIR="/home/daniel/system"
+
+rsync -a -r --exclude='crontab*' --exclude='*.sql' "$BACKUP_DIR"/* /
+
+# backup crontab
+sudo -u ${MY_NORMAL_USER} crontab "${BACKUP_DIR}/crontab.$(hostname).${MY_NORMAL_USER}"
+crontab "${BACKUP_DIR}/crontab.$(hostname).root"
+

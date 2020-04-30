@@ -1,0 +1,15 @@
+#!/bin/bash
+
+DIR="$(basename "$PWD")"
+
+if [ $# -eq 1 ]; then
+	DIR="$1"
+	cd "$DIR"
+fi
+
+
+/home/daniel/bin/music2opus
+
+
+mkdir -p "/home/daniel/Música/radio/$DIR"
+mv *.opus "/home/daniel/Música/radio/$DIR/"

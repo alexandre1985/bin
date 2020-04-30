@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+
+const args = process.argv.slice(2);
+
+const html_file = args[0]
+
+var fs = require('fs'), cheerio = require('/home/daniel/n/lib/node_modules/cheerio');
+
+
+function url_to_static(url) {
+	var attr = url.attr('href');
+	return attr ? attr.replace(/\.[^/.]+$/, "/") : "";
+}
+
+
+// html file we are working on
+var htmlPath = html_file;
+
+
+fs.readFile(htmlPath, {encoding: 'utf8'}, function(error, data) {
+    var $ = cheerio.load(data);
+
+    $('.navbar a').each(function(i, link) {
+        $(link).attr('href', url_to_static($(link)));
+    });
+
+
+    fs.writeFileSync(htmlPath, $.html());
+});

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+/usr/bin/xdg-open mailto://
+
+exit 0

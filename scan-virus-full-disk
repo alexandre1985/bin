@@ -1,0 +1,4 @@
+#!/bin/bash
+
+#find / -type f -print | xargs -P $(nproc) clamscan --recursive --infected --move=/home/daniel/Quarentine/ --exclude-dir="^/sys" --exclude-dir="^/mnt"
+clamscan --recursive --infected --move=/home/daniel/Quarentine/ --exclude-dir="^/sys" --exclude-dir="^/mnt" /

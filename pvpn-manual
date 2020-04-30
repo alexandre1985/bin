@@ -1,0 +1,10 @@
+#!/bin/su root
+
+SERVER="$1"
+PATH_OPENVPN_CONFIG="/home/daniel/.config/pvpn"
+
+if [ -z "$1" ]; then
+	SERVER="${PATH_OPENVPN_CONFIG}/nl-free-01.protonvpn.com.udp.ovpn"
+fi
+
+openvpn --daemon --config ${SERVER} --auth-user-pass ${PATH_OPENVPN_CONFIG}/protonvpn_openvpn_credentials --auth-retry nointeract

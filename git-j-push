@@ -1,0 +1,13 @@
+#!/bin/bash
+
+git add -A
+git commit -m "$1" || exit 1
+
+JEKYLL_ENV=production bundle exec jekyll build
+
+cd _site/
+git add -A
+git commit -m "$1"
+git push
+
+exit 0

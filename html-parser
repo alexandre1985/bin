@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+const cheerio = require('cheerio');
+
+var stdin = process.openStdin();
+
+var data = "";
+
+stdin.on('data', function(chunk) {
+	data += chunk;
+});
+
+stdin.on('end', function() {
+
+	const html = data;
+	const selector = process.argv[2];
+
+	const $ = cheerio.load(html);
+
+	$(selector).each(function (i, e) {
+        console.log($(this).text());
+    });
+
+});
+

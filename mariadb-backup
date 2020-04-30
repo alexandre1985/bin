@@ -1,0 +1,5 @@
+#!/usr/bin/su root
+
+BACKUP_FILE=/home/daniel/system/mariadb-full-backup.sql
+
+mysqldump --user=root --password --lock-tables --all-databases > ${BACKUP_FILE}

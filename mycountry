@@ -1,0 +1,3 @@
+#!/bin/bash
+whois `ipexternal` | awk -F':[ \t]+' 'tolower($1) ~ /^country$/ { print toupper($2) }'
+exit 0

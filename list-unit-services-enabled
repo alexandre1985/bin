@@ -1,0 +1,5 @@
+#!/bin/bash
+
+systemctl list-unit-files | grep enabled | grep .service
+
+exit 0

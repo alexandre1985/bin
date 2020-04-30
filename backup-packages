@@ -1,0 +1,11 @@
+#!/bin/bash
+
+DIR="/home/daniel"
+
+AUR_LIST_FILE="${DIR}/.packages-list-aur-$(hostname)"
+PACMAN_LIST_FILE="${DIR}/.packages-list-pacman-$(hostname)"
+
+/usr/bin/pacman -Qqen | /usr/bin/sort > ${PACMAN_LIST_FILE}
+/usr/bin/pacman -Qqem | /usr/bin/sort > ${AUR_LIST_FILE}
+
+exit 0

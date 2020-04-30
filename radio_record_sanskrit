@@ -1,0 +1,2 @@
+#!/bin/bash
+streamripper http://epsilon.shoutca.st:8070/autodj -d /home/daniel/Gravações/

@@ -1,0 +1,27 @@
+#!/bin/su root
+
+
+if ! pgrep wpa_supplicant &> /dev/null; then
+    
+    echo 'starting wifi...'
+    
+    systemctl restart wpa_supplicant
+
+    sleep 2
+
+    dhclient wlp2s0 &
+    sleep 3
+    pkill dhclient
+    
+else
+
+    echo 'stopping wifi...'
+
+    systemctl stop wpa_supplicant
+    wifi-down
+    
+    ip-flush
+    
+fi
+
+exit 0

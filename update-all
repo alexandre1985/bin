@@ -1,0 +1,6 @@
+#!/bin/bash
+
+update-packages
+update-other-programs
+
+exit 0

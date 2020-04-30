@@ -1,0 +1,7 @@
+#!/bin/bash
+
+xdg-open https://nsworldmusic.bandcamp.com/
+
+#xdg-open https://www.pexels.com/@aarti-vijay-1207504?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels
+
+exit 0

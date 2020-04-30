@@ -1,0 +1,12 @@
+#!/bin/bash
+
+KEY=/home/daniel/me/devices/android/apks/keys/daniel.keystore
+
+jarsigner -verbose -keystore $KEY "$1" alias_name
+
+echo ""
+echo ""
+echo "Checking if APK is verified..."
+jarsigner -verify "$1"
+
+exit 0

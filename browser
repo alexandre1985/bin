@@ -1,0 +1,6 @@
+#!/bin/bash
+
+/usr/bin/dex /home/daniel/.local/share/applications/firefox.desktop ${@}
+#/usr/bin/chromium --incognito ${@}
+
+exit 0

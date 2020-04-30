@@ -1,0 +1,15 @@
+#!/bin/bash
+
+BOOL_ERASE=$1
+
+if [ $# -eq 0 ]; then
+	BOOL_ERASE=false
+fi
+
+for file in *.webm *.wma; do
+	ffmpeg -i "${file}" -acodec libopus -b:a 128000 "${file%.*}.opus" && $BOOL_ERASE && rm -f "${file}"
+done
+
+for file in *.flac *.wav; do
+	ffmpeg -i "${file}" -acodec libopus -b:a 128000 "${file%.*}.opus"
+done

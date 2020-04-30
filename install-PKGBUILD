@@ -1,0 +1,25 @@
+#!/bin/bash
+
+
+TMP_INSTALL_DIR=/tmp
+
+mkdir -p ${TMP_INSTALL_DIR}/
+
+cd ${TMP_INSTALL_DIR}/
+
+# need this or else git clone created directory migth be diferent then package argument
+PHONY_DIR=tmp_build
+
+rm -Rf ./${PHONY_DIR}
+
+git clone https://aur.archlinux.org/$1.git ./${PHONY_DIR}
+
+cd ./${PHONY_DIR}
+
+if [ "$1" = "--edit" -o "$2" = "--edit" ]; then
+	nano -w PKGBUILD
+fi
+
+makepkg -si
+cd $HOME
+rm -Rf "${TMP_INSTALL_DIR}/${PHONY_DIR}/"

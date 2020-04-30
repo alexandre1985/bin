@@ -1,0 +1,12 @@
+#!/bin/bash
+
+printf '# HTML CHECK\n\n'
+
+vnu --skip-non-html ${@}
+
+
+printf '\n\n# CSS CHECK\n\n'
+
+vnu --skip-non-css ${@}
+
+printf '\nDONE\n'

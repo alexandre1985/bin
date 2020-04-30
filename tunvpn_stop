@@ -1,0 +1,13 @@
+#!/bin/bash
+config_dir="/home/daniel/.badvpn-socks"
+
+socks_server=`cat "${config_dir}/server"`
+
+id=`cat "${config_dir}/id"`
+tun="$(printf 'tun%04x' "$id")"
+
+iptables -t mangle -D PREROUTING -i enp3s0 -p tcp -j MARK --set-mark $id
+iptables -t mangle -D PREROUTING -i wlp0s18f2u2 -p tcp -j MARK --set-mark $id
+ip route del default via 169.254.1.2 table $id
+ip rule del from all fwmark $id lookup $id
+ip tuntap del dev $tun mode tun

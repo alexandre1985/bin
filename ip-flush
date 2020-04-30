@@ -1,0 +1,6 @@
+#!/bin/bash
+
+ip6-flush
+ip4-flush
+
+exit 0

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+LANG=EN /usr/bin/pacman -Scc --noconfirm
+
+echo -e "\nremoving the pacaur cache..."
+rm -Rf /home/daniel/.cache/pacaur/*
+
+exit 0

@@ -1,0 +1,34 @@
+#!/bin/bash
+config_dir="/home/daniel/.badvpn-socks"
+socks_server="127.0.0.1:1080" # ip:port
+
+id="$RANDOM"
+tun="$(printf 'tun%04x' "$id")"
+
+printf $socks_server > "${config_dir}/server"
+printf $id > "${config_dir}/id"
+
+ip tuntap add dev $tun mode tun
+ip link set $tun up
+ip addr add 169.254.1.1/30 dev $tun
+sysctl -w net.ipv4.conf.$tun.forwarding=1
+ip rule add fwmark $id lookup $id
+ip route add default via 169.254.1.2 table $id
+iptables -t mangle -I PREROUTING -i enp3s0 -p tcp -j MARK --set-mark $id
+iptables -t mangle -I PREROUTING -i wlp0s18f2u2 -p tcp -j MARK --set-mark $id
+badvpn-tun2socks --tundev $tun --netif-ipaddr 169.254.1.2 --netif-netmask 255.255.255.252 --socks-server-addr $socks_server --udpgw-transparent-dns
+
+
+#route add <IP_of_SSH_server> gw <IP_of_original_gateway> metric 5
+#<same for DNS>
+#route add default gw 10.0.0.2 metric 6
+
+# # 192.168.8.1 - действующий gw
+# # video.37xxx.ru - адрес proxy
+# route add video.37xxx.ru gw 192.168.8.1 metric 5
+# route add 8.8.8.8 gw 192.168.8.1 metric 5
+# route add 8.8.4.4 gw 192.168.8.1 metric 5
+# route del default gw 192.168.8.1
+# route add default gw 10.0.0.2 metric 6
+# # Маскарадим tun1 в локальную сеть, если требуется: 
+# iptables  -t nat -A POSTROUTING -o tun1 -j MASQUERADE

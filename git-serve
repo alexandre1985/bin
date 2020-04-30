@@ -1,0 +1,5 @@
+#!/bin/bash
+
+git daemon --verbose --enable=upload-pack --enable=receive-pack --export-all --base-path=.git --reuseaddr --strict-paths .git/
+
+exit 0

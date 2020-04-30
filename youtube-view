@@ -1,0 +1,2 @@
+#!/bin/bash
+/usr/bin/nohup sh -c "/home/daniel/bin/youtube-dl -o - $1 | /usr/bin/cvlc -" >/dev/null 2>&1 &

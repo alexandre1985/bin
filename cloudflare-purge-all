@@ -1,0 +1,15 @@
+#!/bin/bash
+
+EMAIL=${LESSPASS_EMAIL}
+AUTH_KEY=${CLOUDFLARE_KEY}
+ZONE_ID=77a6c2ae28ca89c89d6d077510dce3fe
+
+API_LINK=https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/purge_cache
+
+
+# Purge all
+
+CMD=$(curl --silent -X POST "${API_LINK}" -H "X-Auth-Email: ${EMAIL}" -H "X-Auth-Key: ${AUTH_KEY}" -H "Content-Type: application/json" --data '{"purge_everything":true}')
+echo $CMD | jq -r '.success'
+
+exit 0

@@ -1,0 +1,52 @@
+#!/usr/bin/su root
+
+set -e
+
+MY_NORMAL_USER="daniel"
+
+# IMPORTANT!!! all this variables path have to be absolute
+
+FILES_FILE="/home/daniel/.system-backupfiles.add"
+TMP_FILES_FILE="/tmp/$(basename ${FILES_FILE})"
+
+REGEX_EXCLUDE_FILE="/home/daniel/.system-backupfiles.regex_exclude"
+
+BACKUP_DIR="/home/daniel/system" # cannot have slash in the end !IMPORTANT
+
+
+
+# sanity check
+
+mkdir -p ${BACKUP_DIR}
+touch ${FILES_FILE} ${REGEX_EXCLUDE_FILE}
+
+
+# regenerate $FILES_FILE
+
+( cat ${FILES_FILE} && (pacman -Qii | awk '/^MODIFIED/ {print $2}') ) | sort | uniq > ${TMP_FILES_FILE}
+egrep -vwf "${REGEX_EXCLUDE_FILE}" ${TMP_FILES_FILE} > ${FILES_FILE}
+
+
+
+# delete directories (and files) that are on $BACKUP_DIR and stopped being on $FILES_FILE
+
+(diff -r --exclude="*.sql" --exclude="crontab.$(hostname)*" ${BACKUP_DIR} / | grep ${BACKUP_DIR} | grep -v "diff -r " | awk '{gsub(":", "", $3)} {print $3 $4}' ) | xargs rm -Rf
+
+## also remove the $REGEX_EXCLUDE_FILE files or directories
+egrep "${REGEX_EXCLUDE_FILE}" ${TMP_FILES_FILE} | awk '{print "'"${BACKUP_DIR}"'" $0}' | xargs rm -Rf
+
+## remove $BACKUP_DIR empty directories
+find ${BACKUP_DIR} -type d -empty -delete
+
+
+rm -f ${TMP_FILES_FILE}
+
+
+
+# update files of $BACKUP_DIR
+
+rsync -a -r --delete --include ".*" --files-from=${FILES_FILE} / ${BACKUP_DIR}
+
+# backup crontab
+sudo -u ${MY_NORMAL_USER} crontab -l > "${BACKUP_DIR}/crontab.$(hostname).${MY_NORMAL_USER}"
+crontab -l > "${BACKUP_DIR}/crontab.$(hostname).root"

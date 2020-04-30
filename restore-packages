@@ -1,0 +1,34 @@
+#!/bin/bash
+
+DIR="/home/daniel"
+PACMAN_PACKAGE_LIST="${DIR}/.packages-list-pacman-$(hostname).new"
+AUR_PACKAGE_LIST="${DIR}/.packages-list-aur-$(hostname).new"
+FILE_TMP_LIST="/tmp/to_install"
+
+# make a check to only be run as non-root
+
+if [ $(id -u) = 0 ]; then
+	echo "You must run this script as non-root..."
+	exit 1
+fi
+
+
+sudo -K
+echo "# PACMAN:"
+
+cp ${PACMAN_PACKAGE_LIST} ${FILE_TMP_LIST}
+sudo pacman -S --needed - < "${FILE_TMP_LIST}"
+
+
+echo "# AUR:"
+
+cp ${AUR_PACKAGE_LIST} ${FILE_TMP_LIST}
+while read package; do
+	( ! pacman -Q ${package} &> /dev/null ) && pacaur -S --noedit --noconfirm --needed ${package}
+done < "${FILE_TMP_LIST}"
+
+
+# exiting
+rm -f ${FILE_TMP_LIST}
+
+exit 0

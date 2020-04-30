@@ -1,0 +1,17 @@
+#!/bin/su root
+
+
+RADIO_DIR="/home/daniel/Música/radio/"
+
+
+systemctl restart icecast
+
+iptables-icecast
+
+cd ${RADIO_DIR}
+playlist-refresh
+
+
+su - daniel -c "ana-stream"
+
+exit 0

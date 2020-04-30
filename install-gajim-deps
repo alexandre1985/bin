@@ -1,0 +1,5 @@
+#!/bin/bash
+
+sudo pacman -S --needed gajim seahorse gnome-keyring python-axolotl python-qrcode
+
+exit 0

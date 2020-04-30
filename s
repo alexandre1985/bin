@@ -1,0 +1,397 @@
+#!/bin/bash
+
+
+# VARIABLES
+
+MKDIR=/usr/bin/mkdir # IMPORTANT! MKDIR executable command path (must be correctly set)
+SED=/usr/bin/sed # IMPORTANT! SED executable command path (must be correctly set)
+BASENAME=/usr/bin/basename # IMPORTANT! BASENAME executable command path (must be correctly set)
+GREP=/usr/bin/grep # IMPORTANT! GREP executable command path (must be correctly set)
+
+CONFIG_HOME=${XDG_CONFIG_HOME:-${HOME}/.config}
+SCRIPT_CONFIG_DIR=${CONFIG_HOME}/commandline-search-browser
+CONFIG_FILE_MAIN=${SCRIPT_CONFIG_DIR}/vars-and-aliases.conf
+
+ALIAS_VAR_PREFIX="CLSB_ALIAS_"
+
+
+# FUNCTIONS
+
+function write_original_config_file_to() {
+	echo '# this variable has to be set, and match your internet browser terminal command
+# can also be, for example, firefox or /usr/bin/firefox
+BROWSER_COMMAND=xdg-open
+
+
+# Alias of your browser search engine and corresponding search url
+
+## to add the "search term" to the search url use the word %MYSEARCHTERM
+## for example, for Google you can add the line:
+##g=https://www.google.com/search?q=%MYSEARCHTERM
+## being "g" the google search engine alias
+## and "https://www.google.com/search?q=%MYSEARCHTERM" the google search url that you want to use
+
+## You may use an configured alias as the content of an alias variable
+## For example google=g
+
+
+# The Default Search Engine.
+# The script has to have this variable (named default) set and uncommented. And this variable name ("default") must not be changed. Only he value of the "default" variable may be changed
+default=s
+
+# StartPage
+s=https://www.startpage.com/do/dsearch?query=%MYSEARCHTERM
+startpage=s
+
+# Google
+g=https://www.google.com/search?q=%MYSEARCHTERM
+google=g
+
+# DuckDuckGo
+d=https://duckduckgo.com/?q=%MYSEARCHTERM
+duckduck=d
+
+# Bing
+b=https://www.bing.com/search?q=%MYSEARCHTERM
+bing=b
+
+# Twitter
+tw=https://twitter.com/search?q=%MYSEARCHTERM
+twitter=tw
+
+# Wikipedia (en)
+w=https://en.wikipedia.org/wiki/%MYSEARCHTERM
+wiki=w
+
+# Youtube
+y=https://www.youtube.com/results?search_query=%MYSEARCHTERM
+youtube=y
+
+# Vimeo
+v=https://vimeo.com/search?q=%MYSEARCHTERM
+vimeo=v
+
+# Cambridge Dictionary
+en=https://dictionary.cambridge.org/search/english/direct/?q=%MYSEARCHTERM
+dic=en
+
+# Priberam - Portuguese Dictionary
+pt=https://dicionario.priberam.org/%MYSEARCHTERM
+
+# Arch Linux Wiki
+arch=https://wiki.archlinux.org/index.php?search=%MYSEARCHTERM
+
+# Arch Linux Packages
+pkg=https://www.archlinux.org/packages/?q=%MYSEARCHTERM
+
+# Arch Linux AUR
+aur=https://aur.archlinux.org/packages/?O=0&K=%MYSEARCHTERM
+
+# Manjaro Linux Forum
+m=https://forum.manjaro.org/search?q=%MYSEARCHTERM
+manjaro=m
+
+# GitHub
+gh=https://github.com/search?&ref=simplesearch&q=%MYSEARCHTERM
+github=gh
+
+# The Pirate Bay
+pirate=https://thepiratebay.org/search/%MYSEARCHTERM
+bay=pirate
+
+# Google Translate
+t=https://translate.google.com/?source=osdd#view=home&op=translate&sl=auto&tl=${FUNC:-`show_if_else ${2} auto pt en es fr it`}&text=${FUNC:-`remove_first_word_if_belongs_to '\'%MYSEARCHTERM\'' pt en es fr it`}
+translate=t
+
+# Ebay
+e=https://www.ebay.com/sch/i.html?&_nkw=%MYSEARCHTERM
+ebay=e
+
+# Amazon.com
+a=https://www.amazon.com/s?k=%MYSEARCHTERM
+amazon=a
+
+# PGP - HKP Pool (https://sks-keyservers.net/)
+hkp=https://sks-keyservers.net/pks/lookup?op=vindex&fingerprint=on&search=%MYSEARCHTERM
+
+# PGP
+pgp=hkp
+gpg=pgp' > $1
+}
+
+
+function sanitize_and_import_conf_file() {
+	# this verification has yet to be tested
+	# for security
+
+	# config file will be the last argument
+	# in order to the config file correspond $2 to script's $2, for example
+	local CFG_FILE="${@: -1}"
+	# sanitize $CFG_FILE and save it in CFG_CONTENT
+	# select on lines that have
+	local CFG_CONTENT="$(${SED} -r '/[^=]+=[^=]+/!d' ${CFG_FILE} | ${SED} -r 's/\s+=\s+/=/g')"
+	# add an alias prefix to all vars
+	## also exclude comment lines
+	CFG_CONTENT="$(echo "${CFG_CONTENT}" | ${SED} -r '/^#/d')" # | ${SED} "s/^/${ALIAS_VAR_PREFIX}/")
+
+	while IFS= read -r line; do
+		#add alias var prefix to line
+		local line_with_alias_prefix="$(alias_varname_with_prefix "${line}")"
+		local var="$(echo ${line_with_alias_prefix%%=*} | ${SED} -r 's/ *$//g')"
+		local value="$(echo ${line_with_alias_prefix#*=} | ${SED} -r 's/^ *//g')"
+		# remove quotation marks from $value
+		value="$(echo ${value} | ${SED} -r 's/"//g')"
+		export "${var}"="${value}"
+	done < <(echo "${CFG_CONTENT}")
+}
+
+# arg: <string> name of the variable
+function alias_varname_with_prefix() {
+	printf '%s' "${ALIAS_VAR_PREFIX}${1}"
+}
+
+# arg: <string> name of the alias
+function is_word_an_alias_of_config() {
+	is_shell_var_varname_set "$(alias_varname_with_prefix ${1})"
+}
+
+# <string>: name of the alias
+function get_alias_value_using_alias_keyword() {
+	local PROCESSED_ALIAS_NAME="$(alias_varname_with_prefix ${1})"
+	local VALUE="${!PROCESSED_ALIAS_NAME}"
+	printf '%s' "${VALUE}"
+}
+
+function is_shell_var_varname_set() {
+	[ -v $1 ] && return 0 || return 1
+}
+
+function encode() {
+	local text="${1}"
+	printf '%s' "${text}" | ${SED} "s/ /%20/g"
+}
+
+function remove_first_word_of_string() {
+	read first rest << EOF
+	$(echo "${1}")
+EOF
+	echo ${rest}
+}
+
+
+function remove_first_and_second_words_of_string() {
+	read first second rest << EOF
+	$(echo ${1})
+EOF
+	echo ${rest}
+}
+
+# args: <string> <Nth-position> (starting from 1)
+function get_N_word_from_string() {
+	local tmp_arr=(${1})
+	echo ${tmp_arr[${2}-1]}
+}
+
+# args: <string> <Nth-position> (starting from 1)
+function echo_N_word_from_string() {
+	echo $(get_N_word_from_string ${1} ${2})
+}
+
+# args: <string>
+function get_bash_variables_from_string() {
+	# regex bash variable
+	# \$(\{([^{}]|(?R))*\}|[[:alnum:]])
+	# \$(\{([^\{\}]|(?R))*\}|[[:alnum:]])
+
+	echo ${1} | ${GREP} -Eo '\$(\{([^\{\}]|(?R))*\}|[[:alnum:]])'
+}
+
+function print_help() {
+	local NAME=$(${BASENAME} $0)
+	echo -e "Usage:\n  ${NAME} [--help|-h]\n  ${NAME} [search_engine_alias] <search term>\n\nThe ${NAME} search engine aliases are defined in the ${CONFIG_FILE_MAIN} file."
+	exit 0
+}
+
+## debugging functions
+
+function debug_print_of_var_using_varname() {
+	for var in ${@}; do
+		echo "${var}:${!var}"
+	done
+}
+
+
+
+# USE IN CONFIG FILES
+
+## VARIABLES
+declare FUNC
+
+## FUNCTIONS
+
+function show_if_else() {
+
+	local VAR_IF="${1}"
+	local VAR_ELSE="${2}"
+	local ARGS=${@:3}
+
+	for arg in ${ARGS}; do
+		[[ ${VAR_IF} == ${arg} ]] && echo "${VAR_IF}" && return 0
+	done
+
+	echo "${VAR_ELSE}"
+
+	return 1
+
+}
+
+
+# args:
+#  N_word_number_to_be_the_if_words:NUMBER
+#  X_first_words_of_the_if_words:NUMBER
+#  if_words:MULTIPLE_WORDS
+#  belong_words:MULTIPLE_WORDS
+#
+function from_X_first_arguments_remove_the_Y_nth_word_if_it_belong_to() {
+
+	# CONFIGURABLE VARS
+
+	# variable of the number of obligatory arguments, that do not count for word argument processing
+	local DISCARD_UNTIL_WORD__NUMBER_OF_THE_ARGUMENT=2
+
+	# variable of the number of words until the if_words are counted
+	local IF_WORDS__NUMBER_OF_WORDS=${1}
+
+	# variable of the first number of if_words that count
+
+	(( ${2} > 0 )) && local THE_FIRST_N_WORDS_OF__IF_WORDS=${2} || local THE_FIRST_N_WORDS_OF__IF_WORDS=${#@}
+
+	# NON CONFIGURABLE VARS
+
+	# variable of where the if_words start (it is a argument number)
+	local BEGIN_IF_WORDS__NUMBER_OF_THE_ARGUMENT=$( expr ${DISCARD_UNTIL_WORD__NUMBER_OF_THE_ARGUMENT} + 1 )
+
+	# variable of where the belong_words start (it is a argument number)
+	local BEGIN_BELONG_WORDS__NUMBER_OF_THE_ARGUMENT=$(expr ${BEGIN_IF_WORDS__NUMBER_OF_THE_ARGUMENT} + ${IF_WORDS__NUMBER_OF_WORDS} )
+
+	# ${IF_WORDS__ARGUMENT}
+	local IF_WORDS__ARGUMENT
+	for (( i = ${BEGIN_IF_WORDS__NUMBER_OF_THE_ARGUMENT}; i < (( ${BEGIN_IF_WORDS__NUMBER_OF_THE_ARGUMENT} + ${IF_WORDS__NUMBER_OF_WORDS} )); i++ )); do
+		IF_WORDS__ARGUMENT+=( "${!i}" )
+	done
+
+	# ${@:$BEGIN_IF_WORDS__NUMBER_OF_THE_ARGUMENT:$IF_WORDS__NUMBER_OF_WORDS}
+	local BELONG_WORDS__ARGUMENT=${@:$BEGIN_BELONG_WORDS__NUMBER_OF_THE_ARGUMENT}
+
+	local OUTPUT
+	local index=0
+
+	for word in ${IF_WORDS__ARGUMENT[@]}; do
+
+
+		if [ ${index} -eq ${THE_FIRST_N_WORDS_OF__IF_WORDS} ]; then
+
+			OUTPUT+="${word} "
+			continue
+
+		else
+
+			[[ " ${BELONG_WORDS__ARGUMENT} " =~ " ${word} " ]] || OUTPUT+="${word} "
+			((++index))
+
+		fi
+
+	done
+
+	echo "${OUTPUT%% }"
+
+	return 0
+
+}
+
+
+function remove_first_word_if_belongs_to() {
+	from_X_first_arguments_remove_the_Y_nth_word_if_it_belong_to 1 1 "${@}"
+}
+
+
+
+# PROCESSING LOGIC
+
+## arguments
+ARGUMENTS="${@}"
+
+
+## sanitize environment
+${MKDIR} -p ${SCRIPT_CONFIG_DIR}
+
+[ ! -f ${CONFIG_FILE_MAIN} ] && write_original_config_file_to ${CONFIG_FILE_MAIN}
+
+
+## import config file
+sanitize_and_import_conf_file ${ARGUMENTS} ${CONFIG_FILE_MAIN}
+
+
+# check if is to show help message
+[ $1 = "--help" -o $1 = "-h" ] && print_help
+
+
+
+# CHECK IF USES A SEARCH ENGINE ALIAS
+
+# check if the first argument corresponds to a script configured alias
+# and if it doesnt use the default search engine (which corresponds to the alias name "default")
+
+POSSIBLE_SEARCH_ENGINE_KEYWORD_ARGUMENT=$(get_N_word_from_string "${ARGUMENTS}" 1)
+
+
+if ! is_word_an_alias_of_config ${POSSIBLE_SEARCH_ENGINE_KEYWORD_ARGUMENT}; then
+	# set the default search engine
+	SEARCH_ENGINE_ALIAS="default"
+
+	# set the search term
+	SEARCH_TERM="${ARGUMENTS}"
+else
+	# set the first argument as the search engine alias
+	SEARCH_ENGINE_ALIAS="${POSSIBLE_SEARCH_ENGINE_KEYWORD_ARGUMENT}"
+
+	# set the search term
+	SEARCH_TERM=$(remove_first_word_of_string "${ARGUMENTS}")
+fi
+
+
+SEARCH_ENGINE_ARGUMENT=${SEARCH_ENGINE_ALIAS}
+
+# while a search engine alias is another alias and try to find out the url
+while is_word_an_alias_of_config "${SEARCH_ENGINE_ALIAS}"; do
+	SEARCH_ENGINE_ALIAS=$(get_alias_value_using_alias_keyword "${SEARCH_ENGINE_ALIAS}")
+done
+
+
+# target search engine url
+SEARCH_ENGINE_URL="${SEARCH_ENGINE_ALIAS}"
+
+
+# evaluate the bash variables of $SEARCH_ENGINE_URL
+
+## inserting encoded search term
+
+### make %MYSEARCHTERM substitution
+PROCESSED_SEARCH_URL="${SEARCH_ENGINE_URL//%MYSEARCHTERM/${SEARCH_TERM}}"
+
+### evaluate variables of PROCESSED_SEARCH_URL
+eval "PROCESSED_SEARCH_URL=\"${PROCESSED_SEARCH_URL}\""
+
+### encode search url
+PROCESSED_SEARCH_URL=$(encode "${PROCESSED_SEARCH_URL}")
+
+
+# do the action
+
+BROWSER_COMMAND_VAR=$(get_alias_value_using_alias_keyword "BROWSER_COMMAND")
+
+# echo ${BROWSER_COMMAND_VAR} "${PROCESSED_SEARCH_URL}"
+${BROWSER_COMMAND_VAR} "${PROCESSED_SEARCH_URL}" > /dev/null 2>&1 &
+
+
+exit 0

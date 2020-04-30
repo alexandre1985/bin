@@ -1,0 +1,5 @@
+#!/bin/bash
+
+PLAYER_PATH="/usr/bin/mpv --really-quiet --stop-playback-on-init-failure=yes"
+
+/usr/bin/nohup ${PLAYER_PATH} --no-video $1 > /dev/null 2>&1 &

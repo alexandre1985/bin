@@ -1,0 +1,8 @@
+#!/bin/bash
+
+
+sudo iptables -A TCP -p tcp -m multiport --dport 6600,8585 -j ACCEPT
+sudo ip6tables -A TCP -p tcp -m multiport --dport 6600,8585 -j ACCEPT
+
+
+exit 0

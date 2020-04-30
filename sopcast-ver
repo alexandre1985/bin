@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sopcast-launcher -p mpv $1 > /dev/null

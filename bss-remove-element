@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+const args = process.argv.slice(2);
+
+const html_file = args[0]
+
+var fs = require('fs'), cheerio = require('/home/daniel/n/lib/node_modules/cheerio');
+
+
+// html file we are working on
+var htmlPath = html_file;
+
+// arguments without the html file
+var args_element = args.slice(1)
+
+// xpath element
+var element_to_remove = args_element[0]
+
+fs.readFile(htmlPath, {encoding: 'utf8'}, function(error, data) {
+    var $ = cheerio.load(data);
+
+    $(element_to_remove).remove()
+
+    fs.writeFileSync(htmlPath, $.html());
+});

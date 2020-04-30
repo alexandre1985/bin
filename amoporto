@@ -1,0 +1,42 @@
+#!/home/daniel/.opam/bin/liquidsoap
+
+
+# Standard settings
+
+set("log.file.path", "/var/log/liquidsoap/liquidsoap.log")
+set("init.daemon", true)
+set("log.stdout", true)
+set("log.file", true)
+set("init.daemon.pidfile.path", "/home/daniel/.liquidsoap.pid")
+
+
+
+# Settings #
+
+enable_replaygain_metadata()
+
+icehost = "shaincast.caster.fm"
+iceport = 48045
+pass = "bomdiaporto1985"
+mountpoint = "listen.mp3"
+
+icename = "Radio Amo Porto"
+icegenre = "Chillhop"
+
+descr = "Having today, with some chillhopping"
+url = "http://www.brighterdan.com/radio/"
+
+
+# Sources #
+
+collection = playlist(mode='randomize', reload=1, reload_mode="rounds", "/home/daniel/Música/radio/")
+
+
+radio = fallback([collection])
+
+radio = mksafe(radio)
+
+
+# Output #
+
+output.icecast(%mp3(samplerate=44100, stereo=true, id3v2=true, bitrate=128), id="main", name=icename, host=icehost, port=iceport, password=pass, mount=mountpoint, genre=icegenre, icy_metadata="true", description=descr, url=url, public=true, radio)

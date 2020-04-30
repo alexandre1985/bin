@@ -1,0 +1,24 @@
+#!/bin/bash
+
+LINK="$1"
+TMP_FILE="/tmp/pastebin-link"
+
+echo '
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+</head>
+<body>
+	Click here please: <a href="http://'${LINK}'/">'${LINK}'</a>   
+</body>
+</html>
+' > ${TMP_FILE}
+
+pastebin ${TMP_FILE}
+
+rm ${TMP_FILE}
+
+exit 0

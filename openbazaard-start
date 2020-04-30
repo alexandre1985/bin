@@ -1,0 +1,5 @@
+#!/bin/bash
+
+/home/daniel/apps/openbazaar/openbazaard/openbazaar-go-linux-amd64 start &
+
+exit 0

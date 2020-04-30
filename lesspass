@@ -1,0 +1,34 @@
+#!/bin/bash
+
+SITE="$1"
+USERNAME="$2"
+
+COUNTER=1
+LENGTH=16
+CHARACTERS=ulds
+
+if [[ -z "${USERNAME}" ]]; then
+    USERNAME="${LESSPASS_EMAIL}"
+fi
+
+read -p "Counter (${COUNTER}): " USER_COUNTER
+
+COUNTER=${USER_COUNTER:-${COUNTER}}
+
+
+read -p "Length (${LENGTH}): " USER_LENGTH
+
+LENGTH=${USER_LENGTH:-${LENGTH}}
+
+
+read -p "Caracters (${CHARACTERS}): " USER_CHARACTERS
+
+CHARACTERS=${USER_CHARACTERS:-${CHARACTERS}}
+
+
+printf "Password: "
+#echo lpcli "${SITE}" "${USERNAME}" "-p${CHARACTERS}c${COUNTER}n${LENGTH}"
+lpcli "${SITE}" "${USERNAME}" "-p${CHARACTERS}c${COUNTER}n${LENGTH}" | egrep -v "Options:|Enter Password" | tr -dc '[:print:]' | copiar
+# lpcli "${SITE}" "${USERNAME}" "-c${COUNTER}n${LENGTH}${CHARACTERS}" | egrep -v "Options:|Enter Password"
+
+echo

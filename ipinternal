@@ -1,0 +1,5 @@
+#!/bin/bash
+
+ip address show $1 | egrep "inet|inet6"
+
+exit 0

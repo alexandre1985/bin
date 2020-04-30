@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+
+const args = process.argv.slice(2);
+
+
+var fs = require('fs'), cheerio = require('/home/daniel/n/lib/node_modules/cheerio');
+
+
+// html file we are working on
+var htmlPath = args[0]
+
+// add element before this element
+var positionElement = args[1]
+
+// add element before this element
+var elementToInsert = args[2]
+
+fs.readFile(htmlPath, {encoding: 'utf8'}, function(error, data) {
+    var $ = cheerio.load(data);
+
+    $(positionElement).last().after('\n' + elementToInsert)
+
+    fs.writeFileSync(htmlPath, $.html());
+});

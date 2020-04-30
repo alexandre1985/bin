@@ -1,0 +1,5 @@
+#!/bin/bash
+
+sudo journalctl -p err -b
+
+exit 0

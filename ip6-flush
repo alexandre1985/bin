@@ -1,0 +1,6 @@
+#!/bin/bash
+
+ip -6 addr flush dev wlp2s0
+ip -6 route flush dev wlp2s0
+
+exit 0

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+TRACK_URI=$1
+TRACK_ID=$(echo ${TRACK_URI} | cut -d: -f3)
+
+spotify-dl --track ${TRACK_ID} --dl youtube --access_token ${SPOTIFY_API}

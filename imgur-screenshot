@@ -1,0 +1,6 @@
+#!/bin/bash
+
+import png:- | imgur.sh | copiar
+
+# only works after I use the primary clipboard (select some text and paste with middle button)
+#notify-send "imgur.sh screenshot is ready!"

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+INTERFACE=wlp2s0
+
+PREFIX="2001:818:de0a:ca00"
+LOCAL="$1"
+
+GATEWAY="${PREFIX}::1"
+IP="${PREFIX}:${LOCAL}"
+
+# clear, if other ip is already set
+
+#ip -6 addr flush dev ${INTERFACE}
+
+
+ip -6 addr add ${IP}/64 dev ${INTERFACE}
+
+ip -6 route add default via ${GATEWAY} dev ${INTERFACE}
+
+
+exit 0

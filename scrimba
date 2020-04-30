@@ -1,0 +1,9 @@
+#!/bin/bash
+
+pkill -f "php -S 127.0.0.1:3000"
+
+php -S 127.0.0.1:3000 &
+
+/home/daniel/n/bin/scrimba "$@"
+
+pkill -f "php -S 127.0.0.1:3000"

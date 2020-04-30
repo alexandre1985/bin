@@ -1,0 +1,3 @@
+#!/bin/bash
+
+pacaur -S --needed pandoc-bin git-ftp

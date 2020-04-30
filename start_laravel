@@ -1,0 +1,9 @@
+#!/bin/bash
+PROJ_DIR="/home/daniel/dev/minho.win/servicos/"
+
+cd $PROJ_DIR
+
+nohup npm run watch &> /dev/null &
+php artisan serve &> /dev/null &
+
+echo "Já está!"

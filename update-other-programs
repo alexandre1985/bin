@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# sudos first
+
+# protonvpn update
+sudo pip install protonvpn-cli --upgrade
+
+# system ruby gems update
+sudo gem update
+
+
+# non-sudos after
+
+# node update
+n lts
+n prune
+
+# node modules update
+npm -g update
+
+# ruby gems update
+gem update
+
+# flatpak
+#flatpak update
+
+# youtube-dl
+youtube-dl -U
+
+# other
+

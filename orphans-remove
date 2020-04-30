@@ -1,0 +1,10 @@
+#!/bin/bash
+
+HISTORY="/home/daniel/.orphans-history"
+
+
+echo -e "\n\n########################\n$(date)\n" >> $HISTORY
+pacman -Qtdq >> $HISTORY
+
+
+pacman -Rns $(pacman -Qtdq)

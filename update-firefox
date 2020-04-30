@@ -1,0 +1,11 @@
+#!/bin/bash
+
+FIREFOX_DOWNLOAD_LINK="https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US"
+
+wget ${FIREFOX_DOWNLOAD_LINK} -O /tmp/firefox-latest.tar.bz2
+
+sudo rm -Rf /opt/firefox.last/
+sudo mv /opt/firefox/ /opt/firefox.last/
+sudo tar xf /tmp/firefox-latest.tar.bz2 -C /opt/
+
+exit 0

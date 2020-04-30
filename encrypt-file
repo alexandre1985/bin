@@ -1,0 +1,2 @@
+#!/bin/bash
+gpg --recipient danisantos@protonmail.com --encrypt "$1"

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+pgrep -a -f telnet
+pgrep -a -f ssh
+pgrep -a -f sendmail
+pgrep -a -f liquidsoap

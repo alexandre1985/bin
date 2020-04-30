@@ -1,0 +1,4 @@
+#!/bin/bash
+
+/usr/bin/sed -re "s/<!--\?|&lt;\?/<?/g" -i $1
+/usr/bin/sed -re "s/\?-->|\?&gt;/\?>/g" -i $1

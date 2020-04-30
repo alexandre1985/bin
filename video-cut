@@ -1,0 +1,12 @@
+#!/bin/bash
+
+INPUT_VIDEO_FILE=$1
+OUTPUT_VIDEO_FILE="${INPUT_VIDEO_FILE%%.*}-cutted.${INPUT_VIDEO_FILE##*.}"
+
+CUT_START_TIME=$2
+CUT_END_TIME=$3
+
+
+echo ffmpeg -ss ${CUT_START_TIME} -to ${CUT_END_TIME} -i ${INPUT_VIDEO_FILE} -strict -2 ${OUTPUT_VIDEO_FILE}
+
+exit 0

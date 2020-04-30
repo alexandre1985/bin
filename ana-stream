@@ -1,0 +1,42 @@
+#!/home/daniel/.opam/bin/liquidsoap
+
+
+# Standard settings
+
+set("log.file.path", "/var/log/liquidsoap/liquidsoap.log")
+set("init.daemon", true)
+set("log.stdout", true)
+set("log.file", true)
+set("init.daemon.pidfile.path", "/home/daniel/.liquidsoap.pid")
+
+
+
+# Settings #
+
+enable_replaygain_metadata()
+
+icehost = "localhost"
+iceport = 8555
+pass = "danielsantos"
+mountpoint = "listen.ogg"
+
+icename = "Radio Then"
+icegenre = "Chillhop"
+
+descr = "Having now, with some chillhopping :)"
+url = "//www.brighterdan.com/"
+
+
+# Sources #
+
+collection = playlist(mode='randomize', reload=1, reload_mode="rounds", "/home/daniel/Música/radio/_playlist.m3u")
+
+
+radio = fallback([collection])
+
+radio = mksafe(radio)
+
+
+# Output #
+
+output.icecast(%vorbis, id="main", name=icename, host=icehost, port=iceport, password=pass, mount=mountpoint, genre=icegenre, icy_metadata="true", description=descr, url=url, public=true, radio)

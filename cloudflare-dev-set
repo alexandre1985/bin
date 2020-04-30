@@ -1,0 +1,35 @@
+#!/bin/bash
+
+EMAIL=${LESSPASS_EMAIL}
+AUTH_KEY=${CLOUDFLARE_KEY}
+API_LINK=https://api.cloudflare.com/client/v4/zones/77a6c2ae28ca89c89d6d077510dce3fe/settings/development_mode
+
+SET_DEV_MODE_TO=on
+
+
+# if argument, set cloudflare's development mode to that argument (it should only be 'on' or 'off')
+if [[ ! -z ${1} ]]; then
+	SET_DEV_MODE_TO=${1}
+fi
+
+# Get status
+
+CMD_STATUS="curl --silent -X GET '${API_LINK}' -H 'X-Auth-Email: ${EMAIL}' -H 'X-Auth-Key: ${AUTH_KEY}' -H 'Content-Type: application/json' | jq -r '.result.value'"
+
+STATUS=$(eval "${CMD_STATUS}")
+
+
+if [[ "${STATUS}" == "${SET_DEV_MODE_TO}" ]]; then
+	echo "already is ${STATUS}"
+	exit 0
+fi
+
+# Set development mode to off
+
+curl --silent -X PATCH "${API_LINK}" -H "X-Auth-Email: ${EMAIL}" -H "X-Auth-Key: ${AUTH_KEY}" -H "Content-Type: application/json" --data '{"value":"'${SET_DEV_MODE_TO}'"}' > /dev/null
+
+# Print development mode
+
+eval "${CMD_STATUS}"
+
+exit 0

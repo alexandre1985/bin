@@ -1,0 +1,13 @@
+#!/bin/bash
+
+TMP_INSTALL_DIR=/tmp/libunity
+
+mkdir -p ${TMP_INSTALL_DIR}
+
+cd ${TMP_INSTALL_DIR}
+
+curl --silent https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=libunity > PKGBUILD
+makepkg -si
+
+cd
+rm -Rf ${TMP_INSTALL_DIR}

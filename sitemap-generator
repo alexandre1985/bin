@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+
+const SitemapGenerator = require('/home/daniel/n/lib/node_modules/sitemap-generator');
+
+const args = process.argv.slice(2);
+
+const website_url = args[0]
+
+// create generator
+const generator = SitemapGenerator(website_url, {
+	lastMod: true,
+	stripQuerystring: false,
+});
+ 
+// register event listeners
+generator.on('done', () => {
+  // sitemaps created
+});
+ 
+// start the crawler
+generator.start();

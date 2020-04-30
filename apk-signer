@@ -1,0 +1,38 @@
+#!/bin/bash
+
+set -e
+
+APP=$1
+SIGN_KEYSTORE=/home/daniel/me/devices/android/apks/keys/my.keystore
+
+
+
+echo 'Aligning APK...'
+
+zipalign -p 4 ${APP} /tmp/app-aligned.apk
+mv /tmp/app-aligned.apk ${APP}
+
+
+echo 'Verify APK alignment...'
+
+zipalign -c 4 ${APP}
+
+
+
+echo 'Signing APK...'
+
+#apksigner sign --ks ${SIGN_KEYSTORE} ${APP} --ks-key-alias alias_name
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ${SIGN_KEYSTORE} ${APP}
+
+
+
+echo 'Verify APK signature...'
+
+#apksigner verify ${APP}
+jarsigner -verify -verbose ${APP}
+
+
+
+echo 'done'
+
+exit 0

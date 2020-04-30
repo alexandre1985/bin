@@ -1,0 +1,11 @@
+#!/bin/bash
+
+sudo iptables -A UDP -p udp --dport 5353 -j ACCEPT
+sudo iptables -A TCP -p tcp --dport 4000 -j ACCEPT
+sudo iptables -A UDP -p udp -m udp --dport 32768:61000 -j ACCEPT
+
+sudo ip6tables -A UDP -p udp --dport 5353 -j ACCEPT
+sudo ip6tables -A TCP -p tcp --dport 4000 -j ACCEPT
+sudo ip6tables -A UDP -p udp -m udp --dport 32768:61000 -j ACCEPT
+
+exit 0

@@ -1,0 +1,6 @@
+#!/bin/bash
+SEND_FOLDER=$3
+IP_DESTINATION=$1
+PORT=$2
+
+tar cf - $SEND_FOLDER | nc $IP_DESTINATION $PORT

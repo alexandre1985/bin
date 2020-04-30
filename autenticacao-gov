@@ -1,0 +1,45 @@
+#!/bin/bash
+
+INSTALL_DIR=${HOME}/apps/autenticacao
+
+NAME=plugin-autenticacao-gov.jar
+JAR=${INSTALL_DIR}/${NAME}
+
+
+DOWNLOAD_LINK_JAR=https://autenticacao.gov.pt/fa/ajuda/software/plugin-autenticacao-gov.jar
+
+
+print_help() {
+	echo "Error: need argument start|stop|update"
+}
+
+
+ACTION=$1
+
+case ${ACTION} in
+	start )
+		sudo systemctl start pcscd
+		java -jar ${JAR} &
+		;;
+	stop )
+		pkill -f "java -jar ${JAR}"
+		sudo systemctl stop pcscd
+		;;
+	update | install )
+		mkdir -p ${INSTALL_DIR}
+
+		# dependencies
+		sudo pacman -S jre-openjdk pcsclite ccid --needed
+
+		# autenticacao jar
+		curl -s -o ${JAR} ${DOWNLOAD_LINK_JAR}
+
+		echo -e "Autenticacao Updated/Installed."
+		;;
+	* )
+		print_help
+		exit 1
+esac
+
+
+exit 0

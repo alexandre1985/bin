@@ -1,0 +1,9 @@
+#!/bin/bash
+
+CMD="mpv --really-quiet http://::1:8555/listen.ogg.m3u"
+
+if pgrep mpv &> /dev/null; then
+	pkill mpv
+else
+	${CMD} &
+fi

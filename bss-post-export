@@ -1,0 +1,98 @@
+#!/bin/bash
+
+# I added my personal bash script directory
+PATH="/home/daniel/bin:$PATH"
+# also my node directory (I use 'n' as my node package manager)
+PATH="/home/daniel/n/bin:$PATH"
+
+# final project directory, that we want to export to
+FINAL_DIR="/home/daniel/dev/projectos/freewriters-bss/freewriters-final"
+
+# FUNCTIONS
+
+transform_html_and_into_staticdir() {
+	FILENAME="$1"
+	FILENAME_NO_EXTENSION=$(echo ${FILENAME} | cut -f 1 -d '.')
+
+	# create the /html-filename/ directory
+	mkdir -p "${FINAL_DIR}/${FILENAME_NO_EXTENSION}"
+
+	# copy the html file into this directory
+	rsync -ac ${FILENAME} "${FINAL_DIR}/${FILENAME_NO_EXTENSION}/index.html"
+}
+
+move_into_staticdir() {
+	rsync -ac --delete "$1" "${FINAL_DIR}/"
+}
+
+# END FUNCTIONS
+
+cd $1
+
+
+# move all content except html files (which we will transform), into target directory
+
+rsync -ac --delete --delete-excluded --exclude '*.html' --filter 'protect .git/' --include '.*' . ${FINAL_DIR}/
+
+
+# move files into final project directory (which is FINAL_DIR) and make the transformations that we want
+## IMPORTANT: bss-navbar-replace-links needs to have cheerio: npm install -g cheerio . it's a dependency.
+
+for file in $(find . -maxdepth 1 -type f -name '*.html' -printf "%P\n")
+do
+	case "${file}" in
+		index.html )
+			bss-navbar-replace-links "${file}"
+			# remove jquery
+			bss-remove-element "${file}" "script:nth-child(-n+5)"
+			# bss-php-code has to be the last script execute (because cheerio comments out php tags)
+			bss-php-code "${file}"
+			move_into_staticdir "${file}"
+			;;
+		library.html )
+			bss-navbar-replace-links "${file}"
+			# remove jquery
+			bss-remove-element "${file}" "script:nth-child(-n+5)"
+			# add vue javascript
+			bss-add-to-element "${file}" "script" '<script src="/assets/js/vue/app.js"></script>'
+			# bss-php-code has to be the last script execute (because cheerio comments out php tags
+			bss-php-code "${file}"
+			transform_html_and_into_staticdir "${file}"
+			;;
+		*.html )
+			bss-navbar-replace-links "${file}"
+			# remove jquery
+			bss-remove-element "${file}" "script:nth-child(-n+5)"
+			# bss-php-code has to be the last script execute (because cheerio comments out php tags
+			bss-php-code "${file}"
+			transform_html_and_into_staticdir "${file}"
+			;;
+	esac
+done
+
+
+# move error.log
+## IMPORTANT: make sure the directory /var/log/bss-studio/ exists, and is writable as normal user
+
+LOG_DIR=/var/log/bs-studio/
+
+ERROR=false
+
+if [ -f error.log ]; then
+	mv error.log ${LOG_DIR}
+	ERROR=true
+fi
+
+# message alert
+
+if ${ERROR}; then
+	ICON="error"
+	MESSAGE="Exporting errors. Check ${LOG_DIR}"
+else
+	ICON="bss-logo"
+	MESSAGE="Finished exporting sucessfully !"
+fi
+
+notify-send --icon="${ICON}" "Bootstrap Studio" "${MESSAGE}"
+
+exit 0

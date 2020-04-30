@@ -1,0 +1,5 @@
+#!/bin/bash
+FILE="$1"
+FILE_NO_EXTENSION="${FILE%.*}"
+
+gpg --output "$FILE_NO_EXTENSION" --decrypt "$FILE"

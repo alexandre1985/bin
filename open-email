@@ -1,0 +1,4 @@
+#!/bin/bash
+
+#xdg-open mailto://
+xdg-email &> /dev/null
