@@ -131,7 +131,7 @@ play_no_video() {
 stop_play() {
 	ESCAPED_INPUT="$(escape $1)"
 	
-	${PKILL} -PIPE -f "${ESCAPED_INPUT}" > /dev/null 2>&1 &
+	${PKILL} -f "${ESCAPED_INPUT}" > /dev/null 2>&1 &
 
 	# echo $(jobs -rp)
  #    wait $(jobs -rp) 2>/dev/null
