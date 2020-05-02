@@ -29,7 +29,7 @@ case ${ACTION} in
 		danieldo mkdir -p ${INSTALL_DIR}
 
 		# dependencies
-		pacman -S jre-openjdk pcsclite ccid --needed
+		install jre-openjdk pcsclite ccid
 
 		# autenticacao jar
 		danieldo curl -s -o ${JAR} ${DOWNLOAD_LINK_JAR}

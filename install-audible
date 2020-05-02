@@ -2,7 +2,7 @@
 
 MY_PKG_DIR="/home/daniel/apps/pkg"
 
-pacman -S python2-pip
+install python2-pip
 
 danieldo pip2 install --user selenium
 danieldo pip2 install --user requests

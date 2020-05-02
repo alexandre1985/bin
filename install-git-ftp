@@ -1,3 +1,5 @@
-#!/bin/bash
+#!/usr/bin/su root
 
-pacaur -S --needed pandoc-bin git-ftp
+install pandoc-bin git-ftp
+
+exit 0

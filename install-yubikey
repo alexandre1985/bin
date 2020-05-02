@@ -1,6 +1,6 @@
 #!/usr/bin/su root
 
-pacman -S yubico-pam yubikey-manager openssh opensc --needed
+install yubico-pam yubikey-manager openssh opensc
 
 systemctl start pcscd
 systemctl enable pcscd

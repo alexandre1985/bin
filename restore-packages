@@ -23,7 +23,7 @@ echo "# AUR:"
 
 cp ${AUR_PACKAGE_LIST} ${FILE_TMP_LIST}
 while read package; do
-	( ! pacman -Q ${package} &> /dev/null ) && pacaur -S --noedit --noconfirm --needed ${package}
+	( ! pacman -Q ${package} &> /dev/null ) && yay -S --noeditmenu --noupgrademenu ${package}
 done < "${FILE_TMP_LIST}"
 
 

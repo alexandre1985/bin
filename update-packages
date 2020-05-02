@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/usr/bin/su root
 
-pacaur -Syu --noedit --noconfirm
+yay -Syyu --noeditmenu --noupgrademenu
 
 exit 0

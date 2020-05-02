@@ -1,6 +1,6 @@
 #!/usr/bin/su root
 
 update-packages
-update-other-programs
+yay -S --noeditmenu --noupgrademenu ${@}
 
 exit 0
