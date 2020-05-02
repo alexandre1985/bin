@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [ $(/usr/bin/id -u) == 0 ]; then
+    ${@}
+    exit 0
+fi
+
+
 pass=`DISPLAY=:0.0 /usr/bin/kdialog --title "KdeSu" --password "You can enter your password"`
 
 if [ $? = 0 ]; then

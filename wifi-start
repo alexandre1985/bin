@@ -4,6 +4,7 @@
 if ! pgrep wpa_supplicant &> /dev/null; then
     
     echo 'starting wifi...'
+    notify-send-for-root "Wifi" "          Starting...          "
 
     systemctl restart wpa_supplicant
 
@@ -16,6 +17,7 @@ if ! pgrep wpa_supplicant &> /dev/null; then
 else
 
     echo 'stopping wifi...'
+    notify-send-for-root "Wifi" "          Stopping...          "
 
     systemctl stop wpa_supplicant
     wifi-down

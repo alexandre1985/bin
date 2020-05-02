@@ -1,0 +1,5 @@
+#!/usr/bin/su root
+
+danieldo "DISPLAY=:0 /usr/bin/kdialog --geometry 68x0-0+0 --title \"${1}\" --passivepopup \"${2}\" 5" &> /dev/null
+
+exit 0
