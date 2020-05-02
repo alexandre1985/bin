@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/usr/bin/su root
 
-sudo pacman -S composer cppcheck hunspell hunspell-en_GB imagemagick flatpack whois dnsutils evolution-on diffuse xscreensaver wmctrl noto-fonts-emoji
+pacman -S composer cppcheck hunspell hunspell-en_GB imagemagick flatpack whois dnsutils evolution-on diffuse xscreensaver wmctrl noto-fonts-emoji
 
 exit 0

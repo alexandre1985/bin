@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/su root
 set -e
 
 NAME="pen"
 
-sudo umount /mnt/${NAME}
-sudo cryptsetup close ${NAME}
+umount /mnt/${NAME}
+cryptsetup close ${NAME}
 
 echo "/mnt/${NAME} desmontado"

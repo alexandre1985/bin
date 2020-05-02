@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/usr/bin/su root
 
-sudo ip link set wlp2s0 down
+ip link set wlp2s0 down
 
 exit 0

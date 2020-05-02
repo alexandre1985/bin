@@ -4,7 +4,7 @@
 if ! pgrep wpa_supplicant &> /dev/null; then
     
     echo 'starting wifi...'
-    
+
     systemctl restart wpa_supplicant
 
     sleep 2

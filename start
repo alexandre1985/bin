@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#sudo wifi-ana
-
 evolution &
 
 gajim &

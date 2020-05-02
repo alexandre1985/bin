@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+/usr/bin/su root -c "$*"
+
+exit 0

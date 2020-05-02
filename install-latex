@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/usr/bin/su root
 
-sudo pacman -S texlive-bin texlive-core biber texlive-bibtexextra texlive-humanities texlive-latexextra texlive-pictures texlive-science
+pacman -S texlive-bin texlive-core biber texlive-bibtexextra texlive-humanities texlive-latexextra texlive-pictures texlive-science
 
 exit 0

@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/usr/bin/su root
 
-sudo iptables -D INPUT -p tcp -s 192.168.1.0/24 --dport 9418 -j ACCEPT
+iptables -D INPUT -p tcp -s 192.168.1.0/24 --dport 9418 -j ACCEPT
 
 exit 0

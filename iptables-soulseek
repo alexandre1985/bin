@@ -1,8 +1,6 @@
-#!/bin/bash
+#!/usr/bin/su root
 
-sudo iptables -A TCP -p tcp --dport 56478:56479 -j ACCEPT
-
-sudo ip6tables -A TCP -p tcp --dport 56478:56479 -j ACCEPT
-
+iptables -A TCP -p tcp --dport 56478:56479 -j ACCEPT
+ip6tables -A TCP -p tcp --dport 56478:56479 -j ACCEPT
 
 exit 0

@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/su root
 
-sudo pacman -S yubico-pam yubikey-manager openssh opensc --needed
+pacman -S yubico-pam yubikey-manager openssh opensc --needed
 
-sudo systemctl start pcscd
-sudo systemctl enable pcscd
+systemctl start pcscd
+systemctl enable pcscd
 
 
 exit 0

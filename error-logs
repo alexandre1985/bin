@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/usr/bin/su root
 
-sudo journalctl -p err -b
+journalctl -p err -b
 
 exit 0

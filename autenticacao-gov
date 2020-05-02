@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/su root
 
 INSTALL_DIR=${HOME}/apps/autenticacao
 
@@ -18,21 +18,21 @@ ACTION=$1
 
 case ${ACTION} in
 	start )
-		sudo systemctl start pcscd
-		java -jar ${JAR} &
+		systemctl start pcscd
+		danieldo java -jar ${JAR} &
 		;;
 	stop )
 		pkill -f "java -jar ${JAR}"
-		sudo systemctl stop pcscd
+		systemctl stop pcscd
 		;;
 	update | install )
-		mkdir -p ${INSTALL_DIR}
+		danieldo mkdir -p ${INSTALL_DIR}
 
 		# dependencies
-		sudo pacman -S jre-openjdk pcsclite ccid --needed
+		pacman -S jre-openjdk pcsclite ccid --needed
 
 		# autenticacao jar
-		curl -s -o ${JAR} ${DOWNLOAD_LINK_JAR}
+		danieldo curl -s -o ${JAR} ${DOWNLOAD_LINK_JAR}
 
 		echo -e "Autenticacao Updated/Installed."
 		;;

@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/usr/bin/su root
 
-sudo iptables -I INPUT 2 -p tcp --dport 4002 -j ACCEPT
+iptables -I INPUT 2 -p tcp --dport 4002 -j ACCEPT
 
 exit 0

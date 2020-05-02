@@ -1,14 +1,15 @@
-#!/bin/bash
+#!/usr/bin/su root
+
 set -e
 
 DEVICE="$1"
 NAME="pen"
 
 
-sudo mkdir -p /mnt/${NAME}
-sudo chown $(whoami) /mnt/${NAME}
+mkdir -p /mnt/${NAME}
+chown $(whoami) /mnt/${NAME}
 
-sudo cryptsetup open ${DEVICE} ${NAME}
-sudo mount -t reiserfs /dev/mapper/${NAME} /mnt/${NAME}
+cryptsetup open ${DEVICE} ${NAME}
+mount -t reiserfs /dev/mapper/${NAME} /mnt/${NAME}
 
 echo "Montado em /mnt/${NAME}"

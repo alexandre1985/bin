@@ -1,0 +1,7 @@
+#!/usr/bin/su root
+
+INTERFACE=enp3s0
+
+ip link set dev ${INTERFACE} down
+ip link set dev ${INTERFACE} address $1
+ip link set dev ${INTERFACE} up

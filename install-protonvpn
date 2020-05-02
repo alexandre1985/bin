@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
+#!/usr/bin/su root
 
-sudo pip3 install protonvpn-cli
+pip3 install protonvpn-cli
 
 exit 0

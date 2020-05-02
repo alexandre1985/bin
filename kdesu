@@ -1,0 +1,18 @@
+#!/bin/bash
+
+pass=`DISPLAY=:0.0 /usr/bin/kdialog --title "KdeSu" --password "You can enter your password"`
+
+if [ $? = 0 ]; then
+    echo $pass | su - root -c "${@}" &> /tmp/kdesu-msg
+    if [ $? != 0 ]; then
+        cat /tmp/kdesu-msg | /usr/bin/awk '{$1=""}1' | /usr/bin/sed -e 's/^[[:space:]]*//'
+    fi
+    
+    /usr/bin/rm -f /tmp/kdesu-msg
+else
+    echo "cancelled"
+fi
+
+unset pass
+
+exit 0

@@ -1,6 +1,0 @@
-#!/bin/bash
-INTERFACE=wlan0
-
-sudo ip link set dev ${INTERFACE} down
-sudo ip link set dev ${INTERFACE} address `mac_get_random`
-sudo ip link set dev ${INTERFACE} up

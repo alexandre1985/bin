@@ -13,7 +13,6 @@ if [ $(id -u) = 0 ]; then
 fi
 
 
-sudo -K
 echo "# PACMAN:"
 
 cp ${PACMAN_PACKAGE_LIST} ${FILE_TMP_LIST}
