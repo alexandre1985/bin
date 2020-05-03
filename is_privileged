@@ -1,0 +1,35 @@
+#!/bin/bash
+
+SET_PRIVILEGED_GUID=false
+PRIVILEGED_GUID=998
+
+
+# is root
+if [ $(id -u) -eq 0 ]; then
+    #echo 'yes'
+    exit 0
+fi
+
+
+function is_of_privileged_group() {
+    
+    # check is of group wheel
+    
+    for guid in $(id -G); do
+        if [ ${guid} -eq ${PRIVILEGED_GUID} ]; then
+            #echo 'yes'
+            exit 0
+        fi
+    done
+
+}
+
+# is of wheel group
+# you can set every user of any group (in this script the target group is 'wheel' = guid 998) to be a privileged user
+# this can be configured in /etc/pam.d/su and /etc/pam.d/su-l
+
+${SET_PRIVILEGED_GUID} && is_of_privileged_group
+
+
+#echo 'no'
+exit 1

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $(/usr/bin/id -u) == 0 ]; then
+if is_privileged; then
     ${@}
     exit 0
 fi
