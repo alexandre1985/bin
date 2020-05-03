@@ -3,14 +3,14 @@
 HPATH=/usr/share/hunspell
 TMP_DIR=/tmp/dicionarios-pt
 
-danieldo mkdir -p ${TMP_DIR}
+ndo mkdir -p ${TMP_DIR}
 cd ${TMP_DIR}
 
 # Hunspell
-danieldo wget https://natura.di.uminho.pt/download/sources/Dictionaries/hunspell/LATEST/hunspell-pt_PT-preao-latest.tar.gz
-danieldo mkdir ./extract
+ndo wget https://natura.di.uminho.pt/download/sources/Dictionaries/hunspell/LATEST/hunspell-pt_PT-preao-latest.tar.gz
+ndo mkdir ./extract
 
-danieldo tar xf hunspell-pt_PT-preao-latest.tar.gz -C ./extract/
+ndo tar xf hunspell-pt_PT-preao-latest.tar.gz -C ./extract/
 cd ./extract/*
 
 cp pt_PT-preao.aff ${HPATH}/
@@ -19,9 +19,9 @@ ln -s ${HPATH}/pt_PT-preao.aff ${HPATH}/pt_PT.aff
 ln -s ${HPATH}/pt_PT-preao.dic ${HPATH}/pt_PT.dic
 
 # LibreOffice
-danieldo xdg-open https://natura.di.uminho.pt/download/sources/Dictionaries/openoffice/Pre-AO/
+ndo xdg-open https://natura.di.uminho.pt/download/sources/Dictionaries/openoffice/Pre-AO/
 echo "Na página que abrui faz download do último dicionário, clica nesse ficheiro com o botão do lado direito do rato e escolhe para abrir com o LibreOffice, para ser instalado"
 
-danieldo rm -Rf ${TMP_DIR}
+ndo rm -Rf ${TMP_DIR}
 
 exit 0
