@@ -1,0 +1,6 @@
+#!/usr/bin/su root
+
+/usr/bin/find /home/joe/ -type d -exec chmod g+rwx {} \;
+/usr/bin/find /home/joe/ -type f -exec chmod g+rw {} \;
+
+exit 0
