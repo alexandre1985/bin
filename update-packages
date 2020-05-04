@@ -1,5 +1,5 @@
 #!/usr/bin/su root
 
-yay -Syyu --noeditmenu --noupgrademenu
+yay -Syu --noeditmenu --noupgrademenu
 
 exit 0

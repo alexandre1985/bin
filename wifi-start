@@ -1,10 +1,15 @@
-#!/bin/su root
+#!/usr/bin/su root
 
+ON_X=false
+
+
+if [ "$1" != "" ]; then
+    ON_X=true
+fi
 
 if ! pgrep wpa_supplicant &> /dev/null; then
     
-    echo 'starting wifi...'
-    notify-send-for-root "Wifi" "          Starting...          "
+    ${ON_X} && notify-send-for-root "Wifi" "          Starting...          " || echo 'starting wifi...'
 
     systemctl restart wpa_supplicant
 
@@ -16,8 +21,7 @@ if ! pgrep wpa_supplicant &> /dev/null; then
     
 else
 
-    echo 'stopping wifi...'
-    notify-send-for-root "Wifi" "          Stopping...          "
+    ${ON_X} && notify-send-for-root "Wifi" "          Stopping...          " || echo 'stopping wifi...'
 
     systemctl stop wpa_supplicant
     wifi-down

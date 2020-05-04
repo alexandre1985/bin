@@ -19,20 +19,20 @@ ACTION=$1
 case ${ACTION} in
 	start )
 		systemctl start pcscd
-		danieldo java -jar ${JAR} &
+		odo java -jar ${JAR} &
 		;;
 	stop )
 		pkill -f "java -jar ${JAR}"
 		systemctl stop pcscd
 		;;
 	update | install )
-		danieldo mkdir -p ${INSTALL_DIR}
+		odo mkdir -p ${INSTALL_DIR}
 
 		# dependencies
 		install jre-openjdk pcsclite ccid
 
 		# autenticacao jar
-		danieldo curl -s -o ${JAR} ${DOWNLOAD_LINK_JAR}
+		odo curl -s -o ${JAR} ${DOWNLOAD_LINK_JAR}
 
 		echo -e "Autenticacao Updated/Installed."
 		;;

@@ -4,7 +4,7 @@ MY_PKG_DIR="/home/daniel/apps/pkg"
 
 install python2-pip
 
-danieldo pip2 install --user selenium
-danieldo pip2 install --user requests
+odo pip2 install --user selenium
+odo pip2 install --user requests
 
 pacman -U ${MY_PKG_DIR}/audible-activator*.pkg.tar.xz
