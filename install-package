@@ -1,0 +1,6 @@
+#!/usr/bin/su root
+
+update-packages
+yay -S --nocleanmenu --nodiffmenu --noeditmenu ${@}
+
+exit 0

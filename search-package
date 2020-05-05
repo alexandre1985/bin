@@ -1,0 +1,5 @@
+#!/bin/bash
+
+ndo yay -Ss ${@}
+
+exit 0
