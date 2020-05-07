@@ -1,0 +1,5 @@
+#!/usr/bin/su joe
+
+DISPLAY=:0 ./apps/trinity-desktop-1.4.5.AppImage
+
+exit 0

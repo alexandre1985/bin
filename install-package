@@ -1,6 +1,7 @@
-#!/usr/bin/su root
+#!/bin/bash
 
 update-packages
-yay -S --nocleanmenu --nodiffmenu --noeditmenu ${@}
+yay -S --repo --nocleanmenu --nodiffmenu --noeditmenu --mflags "--skippgpcheck" --needed ${@}
+yay -S --aur --nocleanmenu --nodiffmenu --noeditmenu --mflags "--skippgpcheck" --needed ${@}
 
 exit 0

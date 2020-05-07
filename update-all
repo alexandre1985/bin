@@ -1,6 +1,6 @@
-#!/usr/bin/su root
+#!/bin/bash
 
 update-packages
-update-other-programs
+sudo update-other-programs
 
 exit 0

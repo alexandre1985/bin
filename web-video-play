@@ -1,0 +1,5 @@
+#!/bin/bash
+
+/usr/bin/nohup nohup /usr/bin/cvlc "${1}" >/dev/null 2>&1 &
+
+exit 0

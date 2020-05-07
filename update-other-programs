@@ -21,6 +21,9 @@ odo n prune
 # ruby gems update
 odo gem update
 
+# opam modules
+odo opam-update
+
 # flatpak
 #flatpak update
 

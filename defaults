@@ -1,0 +1,7 @@
+#!/bin/bash
+
+while true; do
+    echo -e "\n"
+done
+
+exit 0

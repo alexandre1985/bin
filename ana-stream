@@ -7,7 +7,7 @@ set("log.file.path", "/var/log/liquidsoap/liquidsoap.log")
 set("init.daemon", true)
 set("log.stdout", true)
 set("log.file", true)
-set("init.daemon.pidfile.path", "/home/daniel/.liquidsoap.pid")
+set("init.daemon.pidfile.path", "/home/daniel/.config/.liquidsoap.pid")
 
 
 

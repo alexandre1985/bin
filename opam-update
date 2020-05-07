@@ -1,0 +1,6 @@
+#!/bin/bash
+
+opam update
+opam upgrade
+
+exit 0

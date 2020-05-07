@@ -1,5 +1,6 @@
-#!/usr/bin/su root
+#!/bin/bash
 
-yay -Syu --noeditmenu --noupgrademenu
+yay -Syu --repo --noeditmenu --noupgrademenu --needed
+yay -Syu --aur --noeditmenu --noupgrademenu --needed
 
 exit 0

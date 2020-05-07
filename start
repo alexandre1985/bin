@@ -1,10 +1,29 @@
 #!/bin/bash
 
-evolution &
+DEX=/usr/bin/dex
 
-gajim &
+
+
+cd $HOME/.local/share/applications/
+
+
+
+$DEX org.gajim.Gajim.desktop &
+
+$DEX claws-mail.desktop &
 
 #start-minimized linphone Linphone 7 &
+
+
+PASS_STORES='dan/xmpp'
+
+for pass_store in ${PASS_STORES}; do
+
+    kdialog --msgbox "When you are ready to reveal $pass_store, click ok";
+    pass-get $pass_store;
+    
+done
+
 
 
 exit 0
