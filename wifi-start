@@ -1,11 +1,8 @@
 #!/usr/bin/su root
 
-ON_X=false
 
+is-tty && ON_X=false || ON_X=true
 
-if [ "$1" != "" ]; then
-    ON_X=true
-fi
 
 if ! pgrep wpa_supplicant &> /dev/null; then
     
