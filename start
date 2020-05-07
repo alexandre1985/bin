@@ -10,7 +10,8 @@ cd $HOME/.local/share/applications/
 
 $DEX org.gajim.Gajim.desktop &
 
-$DEX claws-mail.desktop &
+#$DEX claws-mail.desktop &
+/home/daniel/bin/start-minimized email-cli Claws 2
 
 #start-minimized linphone Linphone 7 &
 
@@ -19,8 +20,7 @@ PASS_STORES='dan/xmpp'
 
 for pass_store in ${PASS_STORES}; do
 
-    kdialog --msgbox "When you are ready to reveal $pass_store, click ok";
-    pass-get $pass_store;
+    /home/daniel/bin/pass-get $pass_store <<< $(DISPLAY=:0.0 /usr/bin/kdialog --title "GPG" --password "You can enter your pin")
     
 done
 
