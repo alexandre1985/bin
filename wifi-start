@@ -1,7 +1,7 @@
 #!/usr/bin/su root
 
 
-is-tty && ON_X=false || ON_X=true
+is-tty-pure && ON_X=false || ON_X=true
 
 
 if ! pgrep wpa_supplicant &> /dev/null; then
