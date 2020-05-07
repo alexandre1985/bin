@@ -1,0 +1,5 @@
+#!/bin/bash
+
+/usr/bin/dex /home/daniel/.local/share/applications/claws-mail.desktop >/dev/null 2>&1
+
+exit 0
