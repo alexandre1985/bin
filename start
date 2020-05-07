@@ -20,7 +20,7 @@ PASS_STORES='dan/xmpp'
 
 for pass_store in ${PASS_STORES}; do
 
-    /home/daniel/bin/pass-get $pass_store <<< $(DISPLAY=:0.0 /usr/bin/kdialog --title "GPG" --password "You can enter your pin")
+    /home/daniel/bin/pass-get $pass_store <<< $(/home/daniel/bin/kpin "GPG")
     
 done
 

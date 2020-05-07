@@ -1,0 +1,5 @@
+#!/bin/bash
+
+DISPLAY=:0.0 /usr/bin/kdialog --title "${1}" --password "You can enter your password"
+
+exit 0
