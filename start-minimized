@@ -1,5 +1,5 @@
 #!/bin/bash
 
 "$1" &
-sleep $3
-wmctrl -c "$2"
+/usr/bin/sleep $3
+/usr/bin/wmctrl -c "$2"
