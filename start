@@ -16,13 +16,13 @@ $DEX org.gajim.Gajim.desktop &
 #start-minimized linphone Linphone 7 &
 
 
-PASS_STORES='dan/xmpp'
-
-for pass_store in ${PASS_STORES}; do
-
-    /home/daniel/bin/pass-get $pass_store <<< $(/home/daniel/bin/kpin "GPG")
-    
-done
+#PASS_STORES='dan/xmpp'
+#
+#for pass_store in ${PASS_STORES}; do
+#
+#    /home/daniel/bin/pass-get $pass_store <<< $(/home/daniel/bin/kpin "GPG")
+#
+#done
 
 
 
