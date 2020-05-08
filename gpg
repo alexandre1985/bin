@@ -4,3 +4,4 @@ MYGPG=/usr/bin/gpg
 
 ${MYGPG} "$@"
 gpgconf --kill gpg-agent
+pkill gpg-agent >/dev/null 2>&1
