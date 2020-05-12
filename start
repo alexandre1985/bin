@@ -11,7 +11,7 @@ cd $HOME/.local/share/applications/
 $DEX org.gajim.Gajim.desktop &
 
 #$DEX claws-mail.desktop &
-/home/daniel/bin/start-minimized email-cli Claws 2
+/home/daniel/bin/start-minimized email-cli Claws 3
 
 #start-minimized linphone Linphone 7 &
 
