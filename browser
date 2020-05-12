@@ -1,6 +1,7 @@
 #!/bin/bash
 
-/usr/bin/dex /home/daniel/.local/share/applications/firefox.desktop ${@}
+/usr/bin/dex /home/daniel/.local/share/applications/org.qutebrowser.qutebrowser.desktop ${@}
+#/usr/bin/dex /home/daniel/.local/share/applications/firefox.desktop ${@}
 #/usr/bin/chromium --incognito ${@}
 
 exit 0
