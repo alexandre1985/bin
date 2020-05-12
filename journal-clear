@@ -1,0 +1,6 @@
+#!/bin/bash
+
+journalctl --flush --rotate
+journalctl --vacuum-time=1s
+
+exit 0
