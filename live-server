@@ -10,6 +10,6 @@ echo 'Starting Browser'
 /usr/bin/chromium --no-default-browser-check --incognito http://127.0.0.1:8080 &> /dev/null &
 
 echo 'Starting PHP'
-php -S 0.0.0.0:8080
+php -S 127.0.0.1:8080
 
 
