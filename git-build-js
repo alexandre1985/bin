@@ -1,0 +1,35 @@
+#!/bin/bash
+
+export MAIN_JS=scripts.js
+
+if [[ -f ./_bin/build ]]; then
+    
+    ## Bundle Javascripts
+    source ./_bin/bundlify
+
+    ## UglifyJS
+    source ./_bin/uglify
+    
+    ## Copy Javascripts
+    find ./assets/js/ -type f ! -name '_*' -name '*.js' -exec cp {} ./_site/assets/js/ \;
+    
+    exit 0
+fi
+
+if [[ -f ./build ]]; then
+
+    ## Bundle Javascripts
+    source ./bundlify
+
+    ## UglifyJS
+    source ./uglify
+    
+    ## Copy Javascripts
+    find ../assets/js/ -type f ! -name '_*' -name '*.js' -exec cp {} ../_site/assets/js/ \;
+
+    exit 0
+fi
+
+echo 'Scripts not found: ./_bin/bundlify and ./_bin/uglify'
+
+exit 1

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-yay -Syu --repo --noeditmenu --noupgrademenu --needed
-yay -Syu --aur --noeditmenu --noupgrademenu --needed
+defaults | yay -Syu --repo --noeditmenu --noupgrademenu --needed
+defaults | yay -Syu --aur --noeditmenu --noupgrademenu --needed
 
 exit 0

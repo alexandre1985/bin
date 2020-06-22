@@ -3,6 +3,11 @@
 SERVER="$1"
 PATH_OPENVPN_CONFIG="/home/daniel/.config/pvpn"
 
+
+systemctl restart systemd-resolved.service
+
+ip6-flush
+
 if [ -z "$1" ]; then
 	SERVER="${PATH_OPENVPN_CONFIG}/nl-free-01.protonvpn.com.udp.ovpn"
 fi

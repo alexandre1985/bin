@@ -1,6 +1,6 @@
 #!/usr/bin/su root
 
-INSTALL_DIR=${HOME}/apps/autenticacao
+INSTALL_DIR=/home/daniel/apps/autenticacao
 
 NAME=plugin-autenticacao-gov.jar
 JAR=${INSTALL_DIR}/${NAME}
@@ -29,7 +29,7 @@ case ${ACTION} in
 		odo mkdir -p ${INSTALL_DIR}
 
 		# dependencies
-		install jre-openjdk pcsclite ccid
+		defaults | pacman -Syy jre-openjdk pcsclite ccid
 
 		# autenticacao jar
 		odo curl -s -o ${JAR} ${DOWNLOAD_LINK_JAR}

@@ -1,6 +1,6 @@
 #!/bin/bash
 
 opam update
-opam upgrade
+opam upgrade -y
 
 exit 0

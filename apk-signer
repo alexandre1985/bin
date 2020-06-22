@@ -3,7 +3,7 @@
 set -e
 
 APP=$1
-SIGN_KEYSTORE=/home/daniel/me/devices/android/apks/keys/my.keystore
+SIGN_KEYSTORE=/home/daniel/me/devices/android/apks/keys/daniel.keystore
 
 
 

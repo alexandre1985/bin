@@ -1,8 +1,10 @@
 #!/bin/bash
 
 KEY=/home/daniel/me/devices/android/apks/keys/daniel.keystore
+#KEY=/home/daniel/me/devices/android/apks/keys/my.keystore
 
-jarsigner -verbose -keystore $KEY "$1" alias_name
+#jarsigner -verbose -keystore $KEY "$1" alias_name
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $KEY "$1" alias_name
 
 echo ""
 echo ""

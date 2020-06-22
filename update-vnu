@@ -2,7 +2,9 @@
 
 cd ~/apps/vnu/
 
-wget --quiet https://github.com/validator/validator/releases/download/jar/vnu.jar
+echo 'downloading vnu.jar...'
+
+curl -L -s https://github.com/validator/validator/releases/download/jar/vnu.jar -o vnu.jar
 
 echo "vnu.jar updated"
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
 #/usr/bin/xdg-open mailto://
-/usr/bin/xdg-email
+/usr/bin/xdg-email "${@}"
 
 exit 0

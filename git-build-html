@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -e
+
+JEKYLL_ENV=production bundle exec jekyll build 2> /dev/null
+
+
+set +e
+
+# licensing
+source _bin/license-for-gitlab
+
+# removing bug in i18n language plugin
+find ./public/ -type d -name 'assets' ! -wholename './public/assets' -exec rm -Rf {} \;
+
+
+echo 'html+css jekyll build done.'
+
+exit 0

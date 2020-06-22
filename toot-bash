@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# keybase.io/mortenkjarulff
+
+# Get the access token by creating an application on Mastodon:
+#   Edit profile -> Development -> Your applications
+
+# Check https://docs.joinmastodon.org/api for more api parameters
+
+# --- --- ---
+# An unlisted status
+# --- --- ---
+#curl \
+#  -H "Authorization: Bearer `cat /keybase/private/mortenkjarulff/secrets/mastodon/access-token.toot-bash@morten@mastodon.technology`" \
+#  -F "status=Hello from toot-bash" \
+#  -F "visibility=unlisted" \
+#  https://mastodon.technology/api/v1/statuses
+  
+# --- --- ---
+# A direct status
+# --- --- ---
+#curl \
+#  -H "Authorization: Bearer `cat /keybase/private/mortenkjarulff/secrets/mastodon/access-token.toot-bash@morten@mastodon.technology`" \
+#  -F "status=Hello from toot-bash @mortenkjarulff@mastodon.social" \
+#  -F "visibility=direct" \
+#  https://mastodon.technology/api/v1/statuses
+  
+# --- --- ---
+# A status with photos
+# --- --- ---
+
+# Upload 1
+answer=$(
+curl \
+  -H "Authorization: Bearer `cat /keybase/private/mortenkjarulff/secrets/mastodon/access-token.toot-bash@morten@mastodon.technology`" \
+  -F "file=@/keybase/public/mortenkjarulff/me/avatar.jpg" \
+  https://mastodon.technology/api/v1/media
+)
+echo "$answer"
+
+# Extract id 1
+id1=`echo "$answer" | jq -r {id}[]`
+echo "id1=$id1"
+
+# Upload 2
+answer=$(
+curl \
+  -H "Authorization: Bearer `cat /keybase/private/mortenkjarulff/secrets/mastodon/access-token.toot-bash@morten@mastodon.technology`" \
+  -F "file=@/keybase/public/mortenkjarulff/me/avatar-2.jpg" \
+  https://mastodon.technology/api/v1/media
+)
+echo "$answer"
+
+# Extract id 2
+id2=`echo "$answer" | jq -r {id}[]`
+echo "id1=$id2"
+
+# Post a status with them
+curl \
+  -H "Authorization: Bearer `cat /keybase/private/mortenkjarulff/secrets/mastodon/access-token.toot-bash@morten@mastodon.technology`" \
+  -F "status=Me" \
+  -F "media_ids[]=$id1" \
+  -F "media_ids[]=$id2" \
+  -F "visibility=unlisted" \
+  https://mastodon.technology/api/v1/statuses
+
+echo

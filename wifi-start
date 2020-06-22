@@ -8,13 +8,17 @@ if ! pgrep wpa_supplicant &> /dev/null; then
     
     ${ON_X} && notify-send-for-root "Wifi" "          Starting...          " || echo 'starting wifi...'
 
+    ip-flush
+
+    wifi-up
+
     systemctl restart wpa_supplicant
 
-    sleep 2
+    #sleep 2
 
-    dhclient wlp2s0 &
-    sleep 3
-    pkill dhclient
+    #dhclient wlp2s0 &
+    #sleep 3
+    #pkill dhclient
     
 else
 

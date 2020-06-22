@@ -2,6 +2,6 @@
 
 pacman-key --populate archlinux
 pacman-key --refresh-keys
-odo gpg --refresh-keys
+#odo gpg --refresh-keys
 
 exit 0

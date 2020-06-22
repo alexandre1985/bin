@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+/usr/bin/su - daniel -c "$*"
+
+exit 0

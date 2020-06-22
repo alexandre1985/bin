@@ -1,0 +1,63 @@
+#!/bin/bash
+
+function image-width() {
+    local FILE=$1
+
+    identify -format '%w' ${FILE}
+}
+
+function generate-files() {
+
+    local OUTPUT_SRCSET_STRING=""
+    local i=1
+    local FILE=$1
+
+    local IMAGE_NO_EXT=${FILE%.*}
+    local IMAGE=${IMAGE_NO_EXT}.webp
+
+    DIMENSION_WIDTHS=(576 768 992 1200 1600)
+    
+    IMAGE_WIDTH=$(image-width ${FILE})
+
+
+    for dimension in ${DIMENSION_WIDTHS[@]}; do
+        if [[ ${IMAGE_WIDTH} > ${dimension} ]]; then
+            DIMENSION_SRCSET_IMAGE+=(${IMAGE_WIDTH})
+            break
+        fi
+
+        DIMENSION_SRCSET_IMAGE+=(${dimension})
+    done
+
+    for width in ${DIMENSION_SRCSET_IMAGE[@]}; do
+
+        OUTPUT_FILE=${IMAGE_NO_EXT}-${width}.webp
+        
+        if [[ ! -f ${OUTPUT_FILE} ]]; then
+            echo "Creating ${OUTPUT_FILE}..."
+            magick ${FILE} -define webp:lossless=true -resize ${width} ${OUTPUT_FILE}
+        fi
+
+        ((i++))
+    done
+
+}
+
+
+IMAGE_ORIGINAL=$1
+
+if [[ ! -f ${IMAGE_ORIGINAL} ]]; then
+    echo "${IMAGE_ORIGINAL} is not a file"
+    exit 1
+fi
+
+IMAGE_DIRNAME=$(dirname ${IMAGE_ORIGINAL})
+
+
+mkdir -p ${IMAGE_DIRNAME}
+
+
+generate-files ${IMAGE_ORIGINAL}
+
+
+exit 0

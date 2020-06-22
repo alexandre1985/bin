@@ -22,7 +22,7 @@ odo n prune
 odo gem update
 
 # opam modules
-odo opam-update
+odo-shell opam-update
 
 # flatpak
 #flatpak update

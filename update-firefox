@@ -5,7 +5,11 @@ FIREFOX_DOWNLOAD_LINK="https://download.mozilla.org/?product=firefox-latest-ssl&
 wget ${FIREFOX_DOWNLOAD_LINK} -O /tmp/firefox-latest.tar.bz2
 
 rm -Rf /opt/firefox.last/
-mv /opt/firefox/ /opt/firefox.last/
+
+if [[ -d /opt/firefox ]]; then
+  mv /opt/firefox/ /opt/firefox.last/
+fi
+
 tar xf /tmp/firefox-latest.tar.bz2 -C /opt/
 
 exit 0
