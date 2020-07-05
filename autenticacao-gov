@@ -29,7 +29,7 @@ case ${ACTION} in
 		odo mkdir -p ${INSTALL_DIR}
 
 		# dependencies
-		defaults | pacman -Syy jre-openjdk pcsclite ccid
+		defaults | pacman -Syy jre-openjdk pcsclite ccid --needed
 
 		# autenticacao jar
 		odo curl -s -o ${JAR} ${DOWNLOAD_LINK_JAR}

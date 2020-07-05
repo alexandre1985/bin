@@ -11,12 +11,10 @@ if [[ -f ./_bin/build ]]; then
     source ./_bin/uglify
     
     ## Copy Javascripts
-    find ./assets/js/ -type f ! -name '_*' -name '*.js' -exec cp {} ./_site/assets/js/ \;
+    find ./assets/js/ -type f ! -name '_*' -name '*.js' -exec cp {} ./public/assets/js/ \;
     
     exit 0
-fi
-
-if [[ -f ./build ]]; then
+elif [[ -f ./build ]]; then
 
     ## Bundle Javascripts
     source ./bundlify
@@ -25,11 +23,17 @@ if [[ -f ./build ]]; then
     source ./uglify
     
     ## Copy Javascripts
-    find ../assets/js/ -type f ! -name '_*' -name '*.js' -exec cp {} ../_site/assets/js/ \;
+    find ../assets/js/ -type f ! -name '_*' -name '*.js' -exec cp {} ../public/assets/js/ \;
 
     exit 0
+elif [[ -f ./uglify ]]; then
+
+   source ./uglify
+
+   exit 0
+else
+
+   echo 'Scripts not found: ./_bin/bundlify , ./_bin/uglify or uglify'
+   exit 1
+
 fi
-
-echo 'Scripts not found: ./_bin/bundlify and ./_bin/uglify'
-
-exit 1
